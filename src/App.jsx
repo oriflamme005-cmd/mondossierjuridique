@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 // ════════════════════════════════════════════════════════════════════════════════════════
 // MONDOSSIERJURIDIQUE.FR - APPLICATION COMPLÈTE
-// Landing Page + Paiement Stripe + Application Dossiers Juridiques
+// Landing Page + Paiement Stripe + Application Dossiers Juridiques + Mentions Légales
 // ════════════════════════════════════════════════════════════════════════════════════════
 
 const PRICING = {
@@ -85,12 +85,384 @@ const QUESTIONNAIRE_DEFAULT = [
   { id: "infos", label: "Informations complémentaires", type: "textarea", placeholder: "Tout élément utile" },
 ];
 
+// ════════════════════════════════════════════════════════════════════════════════════════
+// COMPOSANT MENTIONS LÉGALES
+// ════════════════════════════════════════════════════════════════════════════════════════
+
+function LegalPage({ onBack, scrollToSection }) {
+  const [activeSection, setActiveSection] = useState('mentions');
+  
+  useEffect(() => {
+    if (scrollToSection) {
+      setActiveSection(scrollToSection);
+      setTimeout(() => {
+        document.getElementById(scrollToSection)?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, [scrollToSection]);
+
+  return (
+    <div className="legal-page">
+      <div className="legal-container">
+        <button className="legal-back-btn" onClick={onBack}>← Retour au site</button>
+        
+        <nav className="legal-nav">
+          <button className={activeSection === 'mentions' ? 'active' : ''} onClick={() => setActiveSection('mentions')}>Mentions légales</button>
+          <button className={activeSection === 'confidentialite' ? 'active' : ''} onClick={() => setActiveSection('confidentialite')}>Confidentialité</button>
+          <button className={activeSection === 'cgv' ? 'active' : ''} onClick={() => setActiveSection('cgv')}>CGV</button>
+          <button className={activeSection === 'cookies' ? 'active' : ''} onClick={() => setActiveSection('cookies')}>Cookies</button>
+        </nav>
+
+        {/* MENTIONS LÉGALES */}
+        {activeSection === 'mentions' && (
+          <section id="mentions" className="legal-section">
+            <h2>📜 Mentions Légales</h2>
+            <p className="legal-update">Dernière mise à jour : Décembre 2024</p>
+
+            <h3>1. Éditeur du site</h3>
+            <p>
+              Le site MonDossierJuridique.fr est édité par :<br/><br/>
+              <strong>Nom :</strong> F. Lomme<br/>
+              <strong>Statut :</strong> Auto-entrepreneur<br/>
+              <strong>SIRET :</strong> 827 751 876 00018<br/>
+              <strong>Adresse :</strong> 71640 Barizey, France<br/>
+              <strong>Email :</strong> contact@mondossierjuridique.fr
+            </p>
+
+            <h3>2. Directeur de la publication</h3>
+            <p>
+              <strong>Nom :</strong> F. Lomme<br/>
+              <strong>Email :</strong> contact@mondossierjuridique.fr
+            </p>
+
+            <h3>3. Hébergeur</h3>
+            <p>
+              Le site est hébergé par :<br/><br/>
+              <strong>Vercel Inc.</strong><br/>
+              340 S Lemon Ave #4133<br/>
+              Walnut, CA 91789, États-Unis<br/>
+              Site web : <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">vercel.com</a>
+            </p>
+
+            <h3>4. Propriété intellectuelle</h3>
+            <p>
+              L'ensemble des contenus présents sur le site MonDossierJuridique.fr (textes, images, graphismes, logo, icônes, sons, logiciels, etc.) est protégé par les lois françaises et internationales relatives à la propriété intellectuelle.
+            </p>
+            <p>
+              Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite sans autorisation écrite préalable de l'éditeur.
+            </p>
+
+            <h3>5. Limitation de responsabilité</h3>
+            <div className="legal-highlight">
+              <strong>⚠️ IMPORTANT :</strong> MonDossierJuridique.fr est un service d'aide à la rédaction de documents juridiques assisté par intelligence artificielle. Ce service NE REMPLACE PAS la consultation d'un avocat.
+            </div>
+            <p>
+              Les documents générés par le service sont des modèles indicatifs destinés à aider les utilisateurs dans leurs démarches. Ils ne constituent en aucun cas un conseil juridique personnalisé.
+            </p>
+            <p>
+              L'éditeur ne saurait être tenu responsable des dommages directs ou indirects résultant de l'utilisation des documents générés par le service.
+            </p>
+            <p>
+              Pour toute procédure judiciaire, il est fortement recommandé de consulter un avocat inscrit au barreau.
+            </p>
+
+            <h3>6. Liens hypertextes</h3>
+            <p>
+              Le site peut contenir des liens vers d'autres sites web. L'éditeur n'exerce aucun contrôle sur ces sites et décline toute responsabilité quant à leur contenu.
+            </p>
+
+            <h3>7. Droit applicable</h3>
+            <p>
+              Les présentes mentions légales sont régies par le droit français. En cas de litige, les tribunaux français seront seuls compétents.
+            </p>
+          </section>
+        )}
+
+        {/* POLITIQUE DE CONFIDENTIALITÉ */}
+        {activeSection === 'confidentialite' && (
+          <section id="confidentialite" className="legal-section">
+            <h2>🔒 Politique de Confidentialité (RGPD)</h2>
+            <p className="legal-update">Dernière mise à jour : Décembre 2024</p>
+
+            <h3>1. Responsable du traitement</h3>
+            <p>
+              Le responsable du traitement des données personnelles est :<br/><br/>
+              F. Lomme<br/>
+              Auto-entrepreneur – SIRET 827 751 876 00018<br/>
+              Email : contact@mondossierjuridique.fr
+            </p>
+
+            <h3>2. Données collectées</h3>
+            <p>Dans le cadre de l'utilisation du site et des services, nous collectons les données suivantes :</p>
+            <ul>
+              <li><strong>Données d'identification :</strong> adresse email</li>
+              <li><strong>Données de paiement :</strong> traitées exclusivement par notre prestataire Stripe (nous ne stockons pas vos coordonnées bancaires)</li>
+              <li><strong>Données relatives à votre dossier :</strong> informations que vous fournissez dans les questionnaires juridiques</li>
+              <li><strong>Données de navigation :</strong> adresse IP, type de navigateur, pages consultées</li>
+            </ul>
+
+            <h3>3. Finalités du traitement</h3>
+            <p>Vos données sont collectées pour :</p>
+            <ul>
+              <li>Générer vos dossiers juridiques personnalisés</li>
+              <li>Traiter vos paiements</li>
+              <li>Vous envoyer des communications relatives à votre commande</li>
+              <li>Améliorer nos services</li>
+              <li>Respecter nos obligations légales</li>
+            </ul>
+
+            <h3>4. Base légale du traitement</h3>
+            <p>Le traitement de vos données est fondé sur :</p>
+            <ul>
+              <li><strong>L'exécution du contrat :</strong> pour la fourniture du service commandé</li>
+              <li><strong>Le consentement :</strong> pour l'envoi de communications marketing (si applicable)</li>
+              <li><strong>L'intérêt légitime :</strong> pour l'amélioration de nos services</li>
+              <li><strong>L'obligation légale :</strong> pour la conservation des factures</li>
+            </ul>
+
+            <h3>5. Destinataires des données</h3>
+            <p>Vos données peuvent être transmises à :</p>
+            <ul>
+              <li><strong>Stripe :</strong> pour le traitement des paiements</li>
+              <li><strong>Anthropic (Claude) :</strong> pour la génération des dossiers par IA</li>
+              <li><strong>Vercel :</strong> hébergement du site</li>
+            </ul>
+            <p>Ces prestataires sont soumis à des obligations de confidentialité et ne peuvent utiliser vos données qu'aux fins prévues.</p>
+
+            <h3>6. Durée de conservation</h3>
+            <ul>
+              <li><strong>Données de compte :</strong> 3 ans après la dernière utilisation</li>
+              <li><strong>Données de facturation :</strong> 10 ans (obligation légale)</li>
+              <li><strong>Données de navigation :</strong> 13 mois maximum</li>
+              <li><strong>Dossiers juridiques générés :</strong> supprimés après téléchargement (non stockés sur nos serveurs)</li>
+            </ul>
+
+            <h3>7. Vos droits</h3>
+            <p>Conformément au RGPD, vous disposez des droits suivants :</p>
+            <ul>
+              <li><strong>Droit d'accès :</strong> obtenir une copie de vos données</li>
+              <li><strong>Droit de rectification :</strong> corriger vos données inexactes</li>
+              <li><strong>Droit à l'effacement :</strong> demander la suppression de vos données</li>
+              <li><strong>Droit à la limitation :</strong> limiter le traitement de vos données</li>
+              <li><strong>Droit à la portabilité :</strong> recevoir vos données dans un format structuré</li>
+              <li><strong>Droit d'opposition :</strong> vous opposer au traitement de vos données</li>
+            </ul>
+            <p>
+              Pour exercer ces droits, contactez-nous à : <strong>contact@mondossierjuridique.fr</strong>
+            </p>
+            <p>
+              Vous pouvez également introduire une réclamation auprès de la CNIL : <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>
+            </p>
+
+            <h3>8. Sécurité des données</h3>
+            <p>
+              Nous mettons en œuvre toutes les mesures techniques et organisationnelles appropriées pour protéger vos données contre tout accès non autorisé, modification, divulgation ou destruction.
+            </p>
+            <p>
+              Notre site utilise le protocole HTTPS (certificat SSL) pour sécuriser les échanges de données.
+            </p>
+
+            <h3>9. Transferts hors UE</h3>
+            <p>
+              Certaines données peuvent être transférées vers des prestataires situés aux États-Unis (Vercel, Stripe, Anthropic). Ces transferts sont encadrés par les Clauses Contractuelles Types de la Commission Européenne ou le Data Privacy Framework.
+            </p>
+          </section>
+        )}
+
+        {/* CONDITIONS GÉNÉRALES DE VENTE */}
+        {activeSection === 'cgv' && (
+          <section id="cgv" className="legal-section">
+            <h2>📋 Conditions Générales de Vente (CGV)</h2>
+            <p className="legal-update">Dernière mise à jour : Décembre 2024</p>
+
+            <h3>Article 1 – Objet</h3>
+            <p>
+              Les présentes Conditions Générales de Vente (CGV) régissent les relations contractuelles entre le site MonDossierJuridique.fr, édité par F. Lomme (SIRET 827 751 876 00018), ci-après « le Prestataire », et toute personne effectuant un achat sur le site, ci-après « le Client ».
+            </p>
+            <p>
+              Toute commande implique l'acceptation sans réserve des présentes CGV.
+            </p>
+
+            <h3>Article 2 – Description du service</h3>
+            <p>
+              MonDossierJuridique.fr propose un service de génération de dossiers juridiques assisté par intelligence artificielle. Le service permet aux utilisateurs de :
+            </p>
+            <ul>
+              <li>Répondre à un questionnaire détaillé sur leur situation juridique</li>
+              <li>Obtenir un dossier juridique personnalisé généré par IA</li>
+              <li>Télécharger ce dossier au format numérique</li>
+            </ul>
+            <div className="legal-highlight">
+              <strong>⚠️ IMPORTANT :</strong> Ce service est un outil d'aide à la rédaction et NE REMPLACE PAS la consultation d'un avocat. Les documents fournis sont des modèles indicatifs.
+            </div>
+
+            <h3>Article 3 – Tarifs</h3>
+            <p>Les tarifs en vigueur sont les suivants :</p>
+            <ul>
+              <li><strong>Formule Essentiel :</strong> 29€ TTC – 1 dossier juridique</li>
+              <li><strong>Formule Standard :</strong> 49€ TTC – 3 dossiers juridiques</li>
+              <li><strong>Formule Premium :</strong> 99€ TTC – 10 dossiers juridiques</li>
+            </ul>
+            <p>
+              Les prix sont indiqués en euros, toutes taxes comprises (TTC). Le Prestataire se réserve le droit de modifier ses tarifs à tout moment, les services étant facturés au tarif en vigueur au moment de la commande.
+            </p>
+
+            <h3>Article 4 – Commande</h3>
+            <p>Pour passer commande, le Client doit :</p>
+            <ul>
+              <li>Choisir la formule souhaitée</li>
+              <li>Renseigner son adresse email</li>
+              <li>Procéder au paiement</li>
+            </ul>
+            <p>
+              La commande est confirmée dès réception du paiement. Un email de confirmation est envoyé au Client.
+            </p>
+
+            <h3>Article 5 – Paiement</h3>
+            <p>
+              Le paiement s'effectue en ligne par carte bancaire via la plateforme sécurisée Stripe. Les cartes acceptées sont : Visa, Mastercard, American Express.
+            </p>
+            <p>
+              Le paiement est exigible immédiatement à la commande. Les données de paiement sont traitées de manière sécurisée et ne sont pas stockées par le Prestataire.
+            </p>
+
+            <h3>Article 6 – Livraison</h3>
+            <p>
+              Le service étant entièrement numérique, la « livraison » consiste en l'accès immédiat à l'application après paiement. Le Client peut alors :
+            </p>
+            <ul>
+              <li>Remplir le questionnaire juridique</li>
+              <li>Générer son dossier</li>
+              <li>Télécharger le document</li>
+            </ul>
+            <p>
+              L'accès au service est immédiat après confirmation du paiement.
+            </p>
+
+            <h3>Article 7 – Droit de rétractation</h3>
+            <p>
+              Conformément à l'article L221-28 du Code de la consommation, le droit de rétractation ne peut être exercé pour les contrats de fourniture de contenu numérique non fourni sur un support matériel dont l'exécution a commencé avec l'accord préalable exprès du consommateur.
+            </p>
+            <p>
+              En validant sa commande et en accédant immédiatement au service, le Client reconnaît renoncer expressément à son droit de rétractation.
+            </p>
+            <p>
+              <strong>Exception :</strong> Si le service est inaccessible ou défaillant pour des raisons techniques imputables au Prestataire, un remboursement pourra être effectué sur demande à contact@mondossierjuridique.fr
+            </p>
+
+            <h3>Article 8 – Responsabilité</h3>
+            <p>Le Prestataire s'engage à fournir un service de qualité. Toutefois :</p>
+            <ul>
+              <li>Les dossiers générés sont des documents d'aide et d'information</li>
+              <li>Ils ne constituent pas un conseil juridique personnalisé</li>
+              <li>Le Prestataire ne peut garantir l'issue d'une procédure judiciaire</li>
+              <li>La responsabilité du Prestataire est limitée au montant de la commande</li>
+            </ul>
+
+            <h3>Article 9 – Propriété intellectuelle</h3>
+            <p>
+              Les dossiers générés par le service sont la propriété du Client qui peut les utiliser librement dans le cadre de ses démarches personnelles.
+            </p>
+            <p>
+              Le Client s'interdit de revendre ou de diffuser commercialement les documents générés.
+            </p>
+
+            <h3>Article 10 – Protection des données</h3>
+            <p>
+              Le traitement des données personnelles est détaillé dans notre Politique de Confidentialité accessible sur ce site.
+            </p>
+
+            <h3>Article 11 – Réclamations et médiation</h3>
+            <p>
+              Pour toute réclamation, le Client peut contacter le Prestataire à l'adresse : <strong>contact@mondossierjuridique.fr</strong>
+            </p>
+            <p>
+              En cas de litige non résolu, le Client peut recourir gratuitement à un médiateur de la consommation. Conformément à l'article L612-1 du Code de la consommation, le Client peut saisir :
+            </p>
+            <p>
+              <strong>CNPM - Médiation de la consommation</strong><br/>
+              27 avenue de la Libération – 42400 Saint-Chamond<br/>
+              Site web : <a href="https://cnpm-mediation-consommation.eu" target="_blank" rel="noopener noreferrer">cnpm-mediation-consommation.eu</a>
+            </p>
+            <p>
+              Plateforme européenne de règlement en ligne des litiges : <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr</a>
+            </p>
+
+            <h3>Article 12 – Droit applicable</h3>
+            <p>
+              Les présentes CGV sont soumises au droit français. Tout litige relatif à leur interprétation ou exécution relève de la compétence des tribunaux français.
+            </p>
+          </section>
+        )}
+
+        {/* POLITIQUE DE COOKIES */}
+        {activeSection === 'cookies' && (
+          <section id="cookies" className="legal-section">
+            <h2>🍪 Politique de Cookies</h2>
+            <p className="legal-update">Dernière mise à jour : Décembre 2024</p>
+
+            <h3>1. Qu'est-ce qu'un cookie ?</h3>
+            <p>
+              Un cookie est un petit fichier texte déposé sur votre terminal (ordinateur, tablette, smartphone) lors de votre visite sur notre site. Il permet de stocker des informations relatives à votre navigation.
+            </p>
+
+            <h3>2. Cookies utilisés sur ce site</h3>
+            
+            <p><strong>Cookies strictement nécessaires :</strong></p>
+            <ul>
+              <li>Gestion de la session utilisateur</li>
+              <li>Mémorisation du panier et du paiement</li>
+              <li>Sécurité du site</li>
+            </ul>
+            <p>Ces cookies sont indispensables au fonctionnement du site et ne peuvent pas être désactivés.</p>
+
+            <p><strong>Cookies tiers :</strong></p>
+            <ul>
+              <li><strong>Stripe :</strong> pour le traitement sécurisé des paiements</li>
+            </ul>
+
+            <h3>3. Durée de conservation</h3>
+            <p>
+              Les cookies sont conservés pour une durée maximale de 13 mois conformément aux recommandations de la CNIL.
+            </p>
+
+            <h3>4. Gestion des cookies</h3>
+            <p>
+              Vous pouvez à tout moment configurer votre navigateur pour accepter ou refuser les cookies :
+            </p>
+            <ul>
+              <li><strong>Chrome :</strong> Paramètres → Confidentialité et sécurité → Cookies</li>
+              <li><strong>Firefox :</strong> Options → Vie privée et sécurité → Cookies</li>
+              <li><strong>Safari :</strong> Préférences → Confidentialité → Cookies</li>
+              <li><strong>Edge :</strong> Paramètres → Cookies et autorisations de site</li>
+            </ul>
+            <p>
+              <strong>Attention :</strong> Le refus de certains cookies peut limiter l'accès à certaines fonctionnalités du site.
+            </p>
+
+            <h3>5. Plus d'informations</h3>
+            <p>
+              Pour en savoir plus sur les cookies, vous pouvez consulter le site de la CNIL : <a href="https://www.cnil.fr/fr/cookies-et-autres-traceurs" target="_blank" rel="noopener noreferrer">www.cnil.fr/fr/cookies-et-autres-traceurs</a>
+            </p>
+          </section>
+        )}
+
+        <div className="legal-footer-info">
+          <p>© 2024 MonDossierJuridique.fr – Tous droits réservés</p>
+          <p>Ce service ne remplace pas la consultation d'un avocat.</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function MonDossierJuridique() {
   const [currentView, setCurrentView] = useState('landing');
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [userEmail, setUserEmail] = useState('');
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [paymentError, setPaymentError] = useState('');
+  const [legalSection, setLegalSection] = useState(null);
   
   const [selectedDomaine, setSelectedDomaine] = useState(null);
   const [selectedCategorie, setSelectedCategorie] = useState(null);
@@ -239,6 +611,12 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
     a.click();
   };
 
+  const goToLegal = (section = null) => {
+    setLegalSection(section);
+    setCurrentView('legal');
+    window.scrollTo(0, 0);
+  };
+
   const styles = `
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap');
     :root { --primary:#1a1a2e; --gold:#c9a227; --gold-light:#e3c565; --text:#2d3748; --muted:#718096; --border:#e2e8f0; --bg:#f8f9fa; --success:#059669; --error:#dc2626; }
@@ -275,6 +653,15 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
     .section-badge { display:inline-block; background:rgba(201,162,39,0.1); color:var(--gold); padding:0.4rem 1rem; border-radius:20px; font-size:0.85rem; font-weight:600; margin-bottom:1rem; }
     .section-title { font-family:'Playfair Display',serif; font-size:2.25rem; color:var(--primary); margin-bottom:1rem; }
     .section-subtitle { color:var(--muted); font-size:1.1rem; }
+    
+    .legal-stats-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; }
+    .legal-stat-card { background:linear-gradient(135deg,var(--primary),#16213e); border-radius:16px; padding:1.75rem; text-align:center; color:white; }
+    .legal-stat-icon { font-size:2.5rem; margin-bottom:0.75rem; }
+    .legal-stat-value { font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:700; background:linear-gradient(135deg,var(--gold),var(--gold-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:0.25rem; }
+    .legal-stat-label { font-size:1rem; font-weight:600; margin-bottom:0.5rem; }
+    .legal-stat-desc { font-size:0.8rem; color:rgba(255,255,255,0.6); line-height:1.4; }
+    .legal-sources { text-align:center; margin-top:2rem; padding:1rem; background:rgba(201,162,39,0.1); border-radius:10px; max-width:800px; margin-left:auto; margin-right:auto; }
+    .legal-sources p { color:var(--muted); font-size:0.85rem; margin:0; }
     
     .comparison-grid { max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr auto 1fr; gap:2rem; }
     .comparison-card { background:white; border-radius:20px; padding:2rem; border:2px solid var(--border); }
@@ -386,11 +773,35 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
     .footer-inner { max-width:1100px; margin:0 auto; text-align:center; }
     .footer h3 { font-family:'Playfair Display',serif; background:linear-gradient(135deg,var(--gold),var(--gold-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:0.75rem; }
     .footer p { color:rgba(255,255,255,0.6); font-size:0.85rem; }
+    .footer-links { display:flex; justify-content:center; gap:1.5rem; margin-top:1rem; flex-wrap:wrap; }
+    .footer-link { color:rgba(255,255,255,0.6); font-size:0.8rem; cursor:pointer; text-decoration:none; transition:color 0.2s; }
+    .footer-link:hover { color:var(--gold); }
     
     .loading-spinner { width:40px; height:40px; border:3px solid var(--border); border-top-color:var(--gold); border-radius:50%; animation:spin 1s linear infinite; margin:1.5rem auto; }
     @keyframes spin { to { transform:rotate(360deg); } }
     
     .back-btn { background:none; border:none; color:var(--gold); cursor:pointer; margin-bottom:1rem; font-size:0.95rem; }
+    
+    /* LEGAL PAGE STYLES */
+    .legal-page { min-height:100vh; background:var(--bg); padding:5rem 1rem 2rem; }
+    .legal-container { max-width:900px; margin:0 auto; }
+    .legal-back-btn { display:inline-block; margin-bottom:1.5rem; padding:0.6rem 1.2rem; background:var(--primary); color:white; border:none; border-radius:8px; cursor:pointer; font-size:0.9rem; }
+    .legal-back-btn:hover { background:var(--gold); }
+    .legal-nav { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:2rem; }
+    .legal-nav button { padding:0.6rem 1.2rem; background:white; color:var(--primary); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; transition:all 0.2s; }
+    .legal-nav button:hover { border-color:var(--gold); }
+    .legal-nav button.active { background:var(--gold); color:white; border-color:var(--gold); }
+    .legal-section { background:white; border-radius:16px; padding:2rem; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+    .legal-section h2 { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--primary); margin-bottom:1rem; padding-bottom:0.75rem; border-bottom:2px solid var(--gold); }
+    .legal-section h3 { color:var(--primary); font-size:1.1rem; margin:1.5rem 0 0.75rem 0; }
+    .legal-section p { margin-bottom:1rem; text-align:justify; line-height:1.7; }
+    .legal-section ul { margin:1rem 0 1rem 1.5rem; }
+    .legal-section ul li { margin-bottom:0.5rem; line-height:1.6; }
+    .legal-section a { color:var(--gold); }
+    .legal-update { font-style:italic; color:var(--muted); font-size:0.9rem; margin-bottom:1.5rem; }
+    .legal-highlight { background:rgba(201,162,39,0.1); padding:1rem; border-radius:8px; border-left:4px solid var(--gold); margin:1.5rem 0; }
+    .legal-footer-info { text-align:center; margin-top:2rem; padding:1.5rem; color:var(--muted); font-size:0.85rem; }
+    .legal-footer-info p { margin-bottom:0.25rem; text-align:center; }
     
     @media (max-width:1024px) {
       .comparison-grid { grid-template-columns:1fr; }
@@ -399,6 +810,7 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
       .testimonials-grid { grid-template-columns:1fr; }
       .pricing-grid { grid-template-columns:1fr; max-width:350px; }
       .pricing-card.popular { transform:none; }
+      .legal-stats-grid { grid-template-columns:repeat(2,1fr); }
     }
     @media (max-width:768px) {
       .nav-links { display:none; }
@@ -407,6 +819,11 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
       .section-title { font-size:1.75rem; }
       .steps-grid { grid-template-columns:1fr; }
       .chat-panel { width:calc(100% - 2rem); right:1rem; }
+      .legal-section { padding:1.5rem; }
+      .legal-nav button { padding:0.5rem 0.8rem; font-size:0.8rem; }
+      .legal-stats-grid { grid-template-columns:1fr; max-width:300px; margin:0 auto; }
+      .legal-stat-card { padding:1.25rem; }
+      .legal-stat-value { font-size:2rem; }
     }
   `;
 
@@ -439,6 +856,11 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
         </div>
       </nav>
 
+      {/* LEGAL PAGE */}
+      {currentView === 'legal' && (
+        <LegalPage onBack={() => setCurrentView('landing')} scrollToSection={legalSection} />
+      )}
+
       {/* LANDING PAGE */}
       {currentView === 'landing' && (
         <>
@@ -458,6 +880,43 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
               <div className="hero-buttons">
                 <button className="btn btn-primary" onClick={() => scrollTo('pricing')}>Créer mon dossier →</button>
               </div>
+            </div>
+          </section>
+
+          <section className="section section-white">
+            <div className="section-header">
+              <span className="section-badge">⚜️ Droit Français</span>
+              <h2 className="section-title">Une base juridique exhaustive</h2>
+              <p className="section-subtitle">Notre IA analyse en temps réel l'ensemble du droit français pour construire votre dossier</p>
+            </div>
+            <div className="legal-stats-grid">
+              <div className="legal-stat-card">
+                <div className="legal-stat-icon">📚</div>
+                <div className="legal-stat-value">93 000+</div>
+                <div className="legal-stat-label">Articles de loi</div>
+                <div className="legal-stat-desc">Code civil, Code du travail, Code pénal, Code de commerce...</div>
+              </div>
+              <div className="legal-stat-card">
+                <div className="legal-stat-icon">⚖️</div>
+                <div className="legal-stat-value">2,4 M+</div>
+                <div className="legal-stat-label">Décisions de justice</div>
+                <div className="legal-stat-desc">Cour de cassation, Cours d'appel, Conseil d'État, tribunaux</div>
+              </div>
+              <div className="legal-stat-card">
+                <div className="legal-stat-icon">📖</div>
+                <div className="legal-stat-value">77</div>
+                <div className="legal-stat-label">Codes juridiques</div>
+                <div className="legal-stat-desc">L'intégralité des codes officiels français à jour</div>
+              </div>
+              <div className="legal-stat-card">
+                <div className="legal-stat-icon">🔄</div>
+                <div className="legal-stat-value">24h</div>
+                <div className="legal-stat-label">Mise à jour</div>
+                <div className="legal-stat-desc">Jurisprudence et textes actualisés quotidiennement</div>
+              </div>
+            </div>
+            <div className="legal-sources">
+              <p>Sources officielles : Légifrance • Cour de cassation • Conseil d'État • DALLOZ • LexisNexis</p>
             </div>
           </section>
 
@@ -580,6 +1039,13 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
               <h3>⚖️ MonDossierJuridique.fr</h3>
               <p>Votre aide juridique en ligne</p>
               <p style={{marginTop:'0.75rem',fontSize:'0.75rem'}}>Ce service ne remplace pas un avocat.</p>
+              <div className="footer-links">
+                <span className="footer-link" onClick={() => goToLegal('mentions')}>Mentions légales</span>
+                <span className="footer-link" onClick={() => goToLegal('confidentialite')}>Politique de confidentialité</span>
+                <span className="footer-link" onClick={() => goToLegal('cgv')}>CGV</span>
+                <span className="footer-link" onClick={() => goToLegal('cookies')}>Cookies</span>
+              </div>
+              <p style={{marginTop:'1rem',fontSize:'0.75rem',color:'rgba(255,255,255,0.4)'}}>© 2024 MonDossierJuridique.fr</p>
             </div>
           </footer>
         </>
@@ -716,6 +1182,11 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
             <div className="footer-inner">
               <h3>⚖️ MonDossierJuridique.fr</h3>
               <p>Ce service ne remplace pas un avocat.</p>
+              <div className="footer-links">
+                <span className="footer-link" onClick={() => goToLegal('mentions')}>Mentions légales</span>
+                <span className="footer-link" onClick={() => goToLegal('cgv')}>CGV</span>
+                <span className="footer-link" onClick={() => goToLegal('confidentialite')}>Confidentialité</span>
+              </div>
             </div>
           </footer>
         </>
