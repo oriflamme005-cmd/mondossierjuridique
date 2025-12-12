@@ -64,6 +64,7 @@ module.exports = async (req, res) => {
         },
       ],
       mode: 'payment',
+      locale: 'fr',
       success_url: `${process.env.NEXT_PUBLIC_URL || 'https://mondossierjuridique.fr'}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_URL || 'https://mondossierjuridique.fr'}/pricing`,
       metadata: {
