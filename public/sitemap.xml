@@ -24,47 +24,13 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
-  <url>
-    <loc>https://www.mondossierjuridique.fr/#testimonials</loc>
-    <lastmod>2024-12-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
 </urlset>
 ```
 
-### 2.4 Sauvegarde
-Clique **"Commit changes"** → **"Commit changes"**
-
-✅ **Fichier 2/4 terminé !**
+5. **Commit changes** → **Commit changes**
 
 ---
 
-## 🔷 ÉTAPE 3 : Ajouter `robots.txt` (nouveau fichier)
-
-### 3.1 Toujours dans le dossier `public`
-1. Clique sur **"Add file"** → **"Create new file"**
-2. Tape : **`robots.txt`**
-
-### 3.2 Colle ce contenu :
+### Ensuite attends 1-2 min et reteste :
 ```
-# Robots.txt for MonDossierJuridique.fr
-# Allow all search engines to crawl the site
-
-User-agent: *
-Allow: /
-
-# Sitemap location
-Sitemap: https://www.mondossierjuridique.fr/sitemap.xml
-
-# Crawl-delay (optional, be nice to the server)
-Crawl-delay: 1
-
-# Disallow API routes (not for indexing)
-Disallow: /api/
-
-# Allow important pages
-Allow: /#pricing
-Allow: /#how
-Allow: /#faq
-Allow: /#testimonials
+https://www.mondossierjuridique.fr/sitemap.xml
