@@ -66,10 +66,47 @@ const DOMAINES = {
 };
 
 const TESTIMONIALS = [
-  { name: "Marie L.", role: "Licenciée abusivement", avatar: "👩‍💼", rating: 5, text: "J'ai économisé plus de 2000€ en honoraires d'avocat. Mon dossier était prêt en 25 minutes !", savings: "2 150€", time: "25 min" },
-  { name: "Pierre M.", role: "Divorce contentieux", avatar: "👨‍💻", rating: 5, text: "La plateforme m'a guidé étape par étape. Le dossier contenait des jurisprudences que même mon avocat ne connaissait pas.", savings: "1 800€", time: "35 min" },
-  { name: "Sophie D.", role: "Succession litigieuse", avatar: "👩‍🔬", rating: 5, text: "Ma succession était bloquée depuis 2 ans. Grâce au dossier complet, j'ai débloqué la situation en 3 semaines.", savings: "3 500€", time: "40 min" },
-  { name: "Thomas R.", role: "Litige locataire", avatar: "👨‍🎓", rating: 5, text: "Mon propriétaire refusait ma caution. Après ma mise en demeure basée sur le dossier, remboursé en 10 jours.", savings: "950€", time: "15 min" },
+  { name: "Marie L.", role: "Licenciement abusif - Prud'hommes", avatar: "👩‍💼", rating: 5, text: "J'ai contesté mon licenciement abusif sans avocat grâce à ce dossier. 2000€ économisés et j'ai gagné aux prud'hommes !", savings: "2 150€", time: "25 min", location: "Lyon" },
+  { name: "Pierre M.", role: "Divorce contentieux", avatar: "👨‍💻", rating: 5, text: "Pour mon divorce, le dossier contenait le calcul de la pension alimentaire et des jurisprudences que même mon avocat ne connaissait pas.", savings: "1 800€", time: "35 min", location: "Paris" },
+  { name: "Sophie D.", role: "Succession bloquée", avatar: "👩‍🔬", rating: 5, text: "Ma succession était bloquée depuis 2 ans. Le dossier m'a permis de faire valoir mes droits à la réserve héréditaire.", savings: "3 500€", time: "40 min", location: "Bordeaux" },
+  { name: "Thomas R.", role: "Caution non rendue", avatar: "👨‍🎓", rating: 5, text: "Mon propriétaire refusait de rendre ma caution. La mise en demeure générée par l'IA l'a convaincu en 10 jours.", savings: "950€", time: "15 min", location: "Marseille" },
+  { name: "Julie B.", role: "Harcèlement moral au travail", avatar: "👩‍⚕️", rating: 5, text: "Victime de harcèlement moral, j'ai pu constituer un dossier solide avec toutes les preuves nécessaires pour les prud'hommes.", savings: "2 800€", time: "30 min", location: "Toulouse" },
+  { name: "Marc D.", role: "Heures supplémentaires impayées", avatar: "👨‍🔧", rating: 5, text: "3 ans d'heures supplémentaires non payées. Le dossier a calculé exactement ce que mon employeur me devait : 8 500€ récupérés !", savings: "1 500€", time: "20 min", location: "Nantes" },
+];
+
+const FAQ_DATA = [
+  {
+    question: "Comment contester un licenciement abusif sans avocat ?",
+    answer: "MonDossierJuridique génère un dossier complet pour contester votre licenciement abusif. Notre IA analyse votre situation selon le Code du travail, recherche la jurisprudence récente de la Cour de cassation, calcule vos indemnités (indemnité de licenciement, préavis, dommages-intérêts), et génère une mise en demeure personnalisée. Vous pouvez vous présenter aux prud'hommes avec un dossier professionnel dès 29€."
+  },
+  {
+    question: "Combien coûte un avocat en France en 2024 ?",
+    answer: "Un avocat facture en moyenne 150€ à 500€ de l'heure. Pour un dossier de licenciement, comptez 1 500€ à 3 000€. Pour un divorce, 2 000€ à 5 000€. MonDossierJuridique propose une alternative dès 29€ : vous obtenez un dossier juridique complet avec textes de loi, jurisprudence et stratégie personnalisée."
+  },
+  {
+    question: "Peut-on aller aux prud'hommes sans avocat ?",
+    answer: "Oui, vous pouvez vous défendre seul aux prud'hommes. C'est même courant : la procédure est conçue pour être accessible. MonDossierJuridique vous fournit tout ce dont vous avez besoin : analyse juridique, calcul des indemnités, jurisprudences favorables, liste des pièces à fournir, et stratégie de défense."
+  },
+  {
+    question: "Comment calculer ses indemnités de licenciement ?",
+    answer: "Les indemnités de licenciement dépendent de votre ancienneté, salaire, et type de licenciement. Notre IA calcule automatiquement : l'indemnité légale ou conventionnelle, l'indemnité compensatrice de préavis, les congés payés, et les dommages-intérêts potentiels en cas de licenciement abusif (jusqu'à 20 mois de salaire)."
+  },
+  {
+    question: "Comment préparer son dossier de divorce ?",
+    answer: "MonDossierJuridique vous aide à préparer votre divorce : inventaire des biens à partager, calcul de la pension alimentaire selon les barèmes officiels, analyse de vos droits concernant la garde des enfants, et anticipation des arguments juridiques. Arrivez préparé chez votre avocat et économisez des heures de consultation."
+  },
+  {
+    question: "Qu'est-ce qu'une mise en demeure et comment la rédiger ?",
+    answer: "Une mise en demeure est un courrier formel qui demande à votre adversaire d'exécuter ses obligations sous peine de poursuites. Notre IA génère des mises en demeure personnalisées, juridiquement solides, avec les bons articles de loi. Que ce soit pour des loyers impayés, une caution non rendue, ou des travaux non effectués."
+  },
+  {
+    question: "MonDossierJuridique est-il fiable ?",
+    answer: "Notre IA analyse 93 000 articles de loi français et 2,4 millions de décisions de justice. Chaque dossier cite les textes exacts du Code civil, Code du travail, etc., ainsi que des jurisprudences vérifiables de la Cour de cassation et des Cours d'appel. Le service ne remplace pas un avocat pour la représentation en justice, mais vous fournit un dossier de qualité professionnelle."
+  },
+  {
+    question: "Quels litiges puis-je traiter avec MonDossierJuridique ?",
+    answer: "Tous les domaines du droit français : licenciement abusif, harcèlement au travail, heures supplémentaires impayées, divorce, pension alimentaire, garde d'enfants, succession, testament contesté, expulsion, loyers impayés, vices cachés (immobilier ou véhicule), litiges de consommation, et bien plus encore."
+  }
 ];
 
 const QUESTIONNAIRE_DEFAULT = [
@@ -663,6 +700,35 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
     .legal-sources { text-align:center; margin-top:2rem; padding:1rem; background:rgba(201,162,39,0.1); border-radius:10px; max-width:800px; margin-left:auto; margin-right:auto; }
     .legal-sources p { color:var(--muted); font-size:0.85rem; margin:0; }
     
+    .hero-trust { margin-top:2rem; }
+    .hero-trust p { color:rgba(255,255,255,0.7); font-size:0.9rem; }
+    
+    .usecases-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
+    .usecase-card { background:white; border-radius:16px; padding:2rem; box-shadow:0 4px 15px rgba(0,0,0,0.05); border:2px solid var(--border); transition:all 0.3s; }
+    .usecase-card:hover { border-color:var(--gold); transform:translateY(-3px); box-shadow:0 8px 25px rgba(0,0,0,0.1); }
+    .usecase-icon { font-size:2.5rem; margin-bottom:1rem; }
+    .usecase-card h3 { font-family:'Playfair Display',serif; font-size:1.25rem; color:var(--primary); margin-bottom:0.75rem; }
+    .usecase-card p { color:var(--text); font-size:0.95rem; margin-bottom:1rem; line-height:1.6; }
+    .usecase-card ul { list-style:none; }
+    .usecase-card ul li { color:var(--muted); font-size:0.85rem; padding:0.25rem 0; }
+    
+    .faq-container { max-width:800px; margin:0 auto; }
+    .faq-item { background:white; border:2px solid var(--border); border-radius:12px; margin-bottom:1rem; overflow:hidden; }
+    .faq-item[open] { border-color:var(--gold); }
+    .faq-question { padding:1.25rem 1.5rem; cursor:pointer; font-weight:600; color:var(--primary); font-size:1rem; list-style:none; display:flex; justify-content:space-between; align-items:center; }
+    .faq-question::-webkit-details-marker { display:none; }
+    .faq-question::after { content:'▼'; font-size:0.75rem; color:var(--gold); transition:transform 0.3s; }
+    .faq-item[open] .faq-question::after { transform:rotate(180deg); }
+    .faq-answer { padding:0 1.5rem 1.25rem; color:var(--text); line-height:1.7; font-size:0.95rem; }
+    
+    .cta-section { background:linear-gradient(135deg,var(--primary),#16213e); padding:4rem 2rem; }
+    .cta-container { max-width:700px; margin:0 auto; text-align:center; }
+    .cta-container h2 { font-family:'Playfair Display',serif; font-size:2.25rem; color:white; margin-bottom:1rem; }
+    .cta-container p { color:rgba(255,255,255,0.8); font-size:1.1rem; margin-bottom:2rem; }
+    .btn-large { padding:1.25rem 2.5rem; font-size:1.1rem; }
+    .cta-guarantees { display:flex; justify-content:center; gap:2rem; margin-top:1.5rem; flex-wrap:wrap; }
+    .cta-guarantees span { color:rgba(255,255,255,0.7); font-size:0.9rem; }
+    
     .comparison-grid { max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr auto 1fr; gap:2rem; }
     .comparison-card { background:white; border-radius:20px; padding:2rem; border:2px solid var(--border); }
     .comparison-card.modern { border-color:var(--gold); box-shadow:0 10px 40px rgba(201,162,39,0.15); }
@@ -811,6 +877,7 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
       .pricing-grid { grid-template-columns:1fr; max-width:350px; }
       .pricing-card.popular { transform:none; }
       .legal-stats-grid { grid-template-columns:repeat(2,1fr); }
+      .usecases-grid { grid-template-columns:1fr; }
     }
     @media (max-width:768px) {
       .nav-links { display:none; }
@@ -824,6 +891,11 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
       .legal-stats-grid { grid-template-columns:1fr; max-width:300px; margin:0 auto; }
       .legal-stat-card { padding:1.25rem; }
       .legal-stat-value { font-size:2rem; }
+      .cta-container h2 { font-size:1.75rem; }
+      .cta-guarantees { gap:1rem; }
+      .cta-guarantees span { font-size:0.8rem; }
+      .faq-question { font-size:0.9rem; padding:1rem; }
+      .faq-answer { padding:0 1rem 1rem; font-size:0.9rem; }
     }
   `;
 
@@ -848,7 +920,8 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
           {currentView === 'landing' && (
             <div className="nav-links">
               <span className="nav-link" onClick={() => scrollTo('how')}>Comment ça marche</span>
-              <span className="nav-link" onClick={() => scrollTo('testimonials')}>Témoignages</span>
+              <span className="nav-link" onClick={() => scrollTo('usecases')}>Cas d'usage</span>
+              <span className="nav-link" onClick={() => scrollTo('faq')}>FAQ</span>
               <span className="nav-link" onClick={() => scrollTo('pricing')}>Tarifs</span>
               <button className="nav-cta" onClick={() => scrollTo('pricing')}>Commencer</button>
             </div>
@@ -868,17 +941,25 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
             <div className="hero-inner">
               <div className="hero-badge">
                 <span style={{width:8,height:8,background:'#10b981',borderRadius:'50%'}}></span>
-                +12 000 dossiers générés
+                +12 000 dossiers générés en France
               </div>
-              <h1>Votre dossier juridique complet en <span>30 minutes</span></h1>
-              <p className="hero-subtitle">Économisez jusqu'à 2 000€ en honoraires. Notre IA génère un dossier professionnel avec textes de loi et jurisprudence.</p>
+              <h1>Votre <span>dossier juridique complet</span> en 30 minutes</h1>
+              <p className="hero-subtitle">
+                <strong>Alternative économique à l'avocat</strong> pour licenciement abusif, divorce, succession, prud'hommes. 
+                Notre IA analyse 93 000 articles de loi et 2,4 millions de jurisprudences françaises. 
+                <strong>Économisez jusqu'à 2 000€</strong> en honoraires.
+              </p>
               <div className="hero-stats">
-                <div><div className="hero-stat-value">{counters.savings}€</div><div className="hero-stat-label">Économie moyenne</div></div>
-                <div><div className="hero-stat-value">{counters.time} min</div><div className="hero-stat-label">Temps moyen</div></div>
-                <div><div className="hero-stat-value">{counters.satisfaction}%</div><div className="hero-stat-label">Satisfaction</div></div>
+                <div><div className="hero-stat-value">{counters.savings}€</div><div className="hero-stat-label">Économie moyenne vs avocat</div></div>
+                <div><div className="hero-stat-value">{counters.time} min</div><div className="hero-stat-label">Temps de génération</div></div>
+                <div><div className="hero-stat-value">{counters.satisfaction}%</div><div className="hero-stat-label">Clients satisfaits</div></div>
               </div>
               <div className="hero-buttons">
-                <button className="btn btn-primary" onClick={() => scrollTo('pricing')}>Créer mon dossier →</button>
+                <button className="btn btn-primary" onClick={() => scrollTo('pricing')}>Créer mon dossier juridique →</button>
+                <button className="btn btn-secondary" onClick={() => scrollTo('how')}>Comment ça marche ?</button>
+              </div>
+              <div className="hero-trust">
+                <p>✓ Licenciement abusif · ✓ Divorce · ✓ Prud'hommes · ✓ Succession · ✓ Loyers impayés</p>
               </div>
             </div>
           </section>
@@ -979,10 +1060,11 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
           <section className="section" id="testimonials">
             <div className="section-header">
               <span className="section-badge">💬 Témoignages</span>
-              <h2 className="section-title">Ils ont économisé</h2>
+              <h2 className="section-title">Ils ont gagné sans avocat</h2>
+              <p className="section-subtitle">Découvrez comment nos clients ont résolu leurs litiges juridiques</p>
             </div>
             <div className="testimonials-grid">
-              {TESTIMONIALS.map((t,i) => (
+              {TESTIMONIALS.slice(0, 4).map((t,i) => (
                 <div key={i} className="testimonial-card">
                   <div className="testimonial-header">
                     <div className="testimonial-avatar">{t.avatar}</div>
@@ -1031,6 +1113,90 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
             <div style={{maxWidth:'500px',margin:'2rem auto 0',textAlign:'center',padding:'1.5rem',background:'rgba(5,150,105,0.05)',border:'2px solid rgba(5,150,105,0.2)',borderRadius:'12px'}}>
               <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>🛡️</div>
               <h4 style={{color:'#059669'}}>Satisfait ou remboursé 30 jours</h4>
+            </div>
+          </section>
+
+          {/* USE CASES SECTION - SEO */}
+          <section className="section" id="usecases">
+            <div className="section-header">
+              <span className="section-badge">🎯 Cas d'usage</span>
+              <h2 className="section-title">Votre situation juridique, notre solution</h2>
+              <p className="section-subtitle">Des milliers de Français ont déjà résolu leur litige grâce à nos dossiers</p>
+            </div>
+            <div className="usecases-grid">
+              <div className="usecase-card">
+                <div className="usecase-icon">💼</div>
+                <h3>Licenciement abusif</h3>
+                <p>Vous avez été licencié injustement ? Notre IA génère votre dossier pour les <strong>prud'hommes</strong> : calcul des indemnités, jurisprudences favorables, mise en demeure.</p>
+                <ul>
+                  <li>✓ Analyse selon le Code du travail</li>
+                  <li>✓ Calcul automatique des indemnités</li>
+                  <li>✓ Jurisprudence Cour de cassation</li>
+                </ul>
+              </div>
+              <div className="usecase-card">
+                <div className="usecase-icon">💔</div>
+                <h3>Divorce & Séparation</h3>
+                <p>Préparez votre <strong>divorce</strong> efficacement : calcul de la pension alimentaire, partage des biens, droits de garde des enfants.</p>
+                <ul>
+                  <li>✓ Barème pension alimentaire</li>
+                  <li>✓ Inventaire des biens à partager</li>
+                  <li>✓ Droits parentaux détaillés</li>
+                </ul>
+              </div>
+              <div className="usecase-card">
+                <div className="usecase-icon">🏠</div>
+                <h3>Litiges immobiliers</h3>
+                <p><strong>Loyers impayés</strong>, caution non rendue, vices cachés ? Obtenez une mise en demeure juridiquement solide et un dossier complet.</p>
+                <ul>
+                  <li>✓ Mise en demeure personnalisée</li>
+                  <li>✓ Procédure d'expulsion</li>
+                  <li>✓ Recours vices cachés</li>
+                </ul>
+              </div>
+              <div className="usecase-card">
+                <div className="usecase-icon">📜</div>
+                <h3>Succession & Héritage</h3>
+                <p><strong>Succession bloquée</strong> ? Testament contesté ? Faites valoir vos droits à la réserve héréditaire avec un dossier juridique complet.</p>
+                <ul>
+                  <li>✓ Calcul de la réserve héréditaire</li>
+                  <li>✓ Contestation de testament</li>
+                  <li>✓ Partage équitable</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* FAQ SECTION - SEO */}
+          <section className="section section-white" id="faq">
+            <div className="section-header">
+              <span className="section-badge">❓ Questions fréquentes</span>
+              <h2 className="section-title">Tout savoir sur MonDossierJuridique</h2>
+              <p className="section-subtitle">Les réponses à vos questions sur nos dossiers juridiques IA</p>
+            </div>
+            <div className="faq-container">
+              {FAQ_DATA.map((faq, index) => (
+                <details key={index} className="faq-item">
+                  <summary className="faq-question">{faq.question}</summary>
+                  <div className="faq-answer">{faq.answer}</div>
+                </details>
+              ))}
+            </div>
+          </section>
+
+          {/* CTA FINAL */}
+          <section className="section cta-section">
+            <div className="cta-container">
+              <h2>Prêt à défendre vos droits ?</h2>
+              <p>Rejoignez les 12 000+ Français qui ont économisé en moyenne 1 847€ grâce à MonDossierJuridique</p>
+              <button className="btn btn-primary btn-large" onClick={() => scrollTo('pricing')}>
+                Générer mon dossier juridique dès 29€ →
+              </button>
+              <div className="cta-guarantees">
+                <span>🔒 Paiement sécurisé</span>
+                <span>⚡ Dossier en 30 min</span>
+                <span>🛡️ Satisfait ou remboursé</span>
+              </div>
             </div>
           </section>
 
