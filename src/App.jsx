@@ -5,11 +5,8 @@ import React, { useState, useEffect } from 'react';
 // Landing Page + Paiement Stripe + Application Dossiers Juridiques + Mentions Légales
 // ════════════════════════════════════════════════════════════════════════════════════════
 
-const PRICING = {
-  essentiel: { price: 29, name: 'Essentiel', dossiers: 1, description: '1 dossier juridique' },
-  standard: { price: 49, name: 'Standard', dossiers: 3, popular: true, description: '3 dossiers juridiques' },
-  premium: { price: 99, name: 'Premium', dossiers: 10, description: '10 dossiers juridiques' },
-};
+// PRIX UNIQUE
+const SINGLE_PRICE = { price: 49, name: 'Dossier Juridique', dossiers: 1, description: '1 dossier juridique complet' };
 
 const DOMAINES = {
   travail: {
@@ -77,11 +74,11 @@ const TESTIMONIALS = [
 const FAQ_DATA = [
   {
     question: "Comment contester un licenciement abusif sans avocat ?",
-    answer: "MonDossierJuridique génère un dossier complet pour contester votre licenciement abusif. Notre IA analyse votre situation selon le Code du travail, recherche la jurisprudence récente de la Cour de cassation, calcule vos indemnités (indemnité de licenciement, préavis, dommages-intérêts), et génère une mise en demeure personnalisée. Vous pouvez vous présenter aux prud'hommes avec un dossier professionnel dès 29€."
+    answer: "MonDossierJuridique génère un dossier complet pour contester votre licenciement abusif. Notre IA analyse votre situation selon le Code du travail, recherche la jurisprudence récente de la Cour de cassation, calcule vos indemnités (indemnité de licenciement, préavis, dommages-intérêts), et génère une mise en demeure personnalisée. Vous pouvez vous présenter aux prud'hommes avec un dossier professionnel pour seulement 49€."
   },
   {
     question: "Combien coûte un avocat en France en 2024 ?",
-    answer: "Un avocat facture en moyenne 150€ à 500€ de l'heure. Pour un dossier de licenciement, comptez 1 500€ à 3 000€. Pour un divorce, 2 000€ à 5 000€. MonDossierJuridique propose une alternative dès 29€ : vous obtenez un dossier juridique complet avec textes de loi, jurisprudence et stratégie personnalisée."
+    answer: "Un avocat facture en moyenne 150€ à 500€ de l'heure. Pour un dossier de licenciement, comptez 1 500€ à 3 000€. Pour un divorce, 2 000€ à 5 000€. MonDossierJuridique propose une alternative à 49€ : vous obtenez un dossier juridique complet avec textes de loi, jurisprudence et stratégie personnalisée."
   },
   {
     question: "Peut-on aller aux prud'hommes sans avocat ?",
@@ -137,80 +134,81 @@ function LegalPage({ onBack, scrollToSection }) {
       }, 100);
     }
   }, [scrollToSection]);
-
+  
   return (
     <div className="legal-page">
-      <div className="legal-container">
-        <button className="legal-back-btn" onClick={onBack}>← Retour au site</button>
-        
+      <div className="legal-header">
+        <button onClick={onBack} className="legal-back-btn">← Retour au site</button>
+        <h1>Informations légales</h1>
+      </div>
+      
+      <div className="legal-content">
         <nav className="legal-nav">
-          <button className={activeSection === 'mentions' ? 'active' : ''} onClick={() => setActiveSection('mentions')}>Mentions légales</button>
-          <button className={activeSection === 'confidentialite' ? 'active' : ''} onClick={() => setActiveSection('confidentialite')}>Confidentialité</button>
-          <button className={activeSection === 'cgv' ? 'active' : ''} onClick={() => setActiveSection('cgv')}>CGV</button>
-          <button className={activeSection === 'cookies' ? 'active' : ''} onClick={() => setActiveSection('cookies')}>Cookies</button>
+          <button 
+            className={activeSection === 'mentions' ? 'active' : ''} 
+            onClick={() => setActiveSection('mentions')}
+          >
+            Mentions légales
+          </button>
+          <button 
+            className={activeSection === 'confidentialite' ? 'active' : ''} 
+            onClick={() => setActiveSection('confidentialite')}
+          >
+            Confidentialité
+          </button>
+          <button 
+            className={activeSection === 'cgv' ? 'active' : ''} 
+            onClick={() => setActiveSection('cgv')}
+          >
+            CGV
+          </button>
+          <button 
+            className={activeSection === 'cookies' ? 'active' : ''} 
+            onClick={() => setActiveSection('cookies')}
+          >
+            Cookies
+          </button>
         </nav>
 
         {/* MENTIONS LÉGALES */}
         {activeSection === 'mentions' && (
           <section id="mentions" className="legal-section">
-            <h2>📜 Mentions Légales</h2>
+            <h2>📋 Mentions Légales</h2>
             <p className="legal-update">Dernière mise à jour : Décembre 2024</p>
-
+            
             <h3>1. Éditeur du site</h3>
             <p>
-              Le site MonDossierJuridique.fr est édité par :<br/><br/>
-              <strong>Nom :</strong> F. Lomme<br/>
-              <strong>Statut :</strong> Auto-entrepreneur<br/>
-              <strong>SIRET :</strong> 827 751 876 00018<br/>
-              <strong>Adresse :</strong> 71640 Barizey, France<br/>
-              <strong>Email :</strong> contact@mondossierjuridique.fr
+              <strong>MonDossierJuridique.fr</strong><br/>
+              Entrepreneur individuel : F. Lomme<br/>
+              SIRET : 827 751 876 00018<br/>
+              Adresse : France<br/>
+              Email : <a href="mailto:contact@mondossierjuridique.fr">contact@mondossierjuridique.fr</a>
             </p>
 
-            <h3>2. Directeur de la publication</h3>
+            <h3>2. Hébergement</h3>
             <p>
-              <strong>Nom :</strong> F. Lomme<br/>
-              <strong>Email :</strong> contact@mondossierjuridique.fr
-            </p>
-
-            <h3>3. Hébergeur</h3>
-            <p>
-              Le site est hébergé par :<br/><br/>
+              Ce site est hébergé par :<br/>
               <strong>Vercel Inc.</strong><br/>
-              340 S Lemon Ave #4133<br/>
-              Walnut, CA 91789, États-Unis<br/>
+              440 N Barranca Ave #4133<br/>
+              Covina, CA 91723, États-Unis<br/>
               Site web : <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">vercel.com</a>
             </p>
 
-            <h3>4. Propriété intellectuelle</h3>
+            <h3>3. Propriété intellectuelle</h3>
             <p>
-              L'ensemble des contenus présents sur le site MonDossierJuridique.fr (textes, images, graphismes, logo, icônes, sons, logiciels, etc.) est protégé par les lois françaises et internationales relatives à la propriété intellectuelle.
-            </p>
-            <p>
-              Toute reproduction, représentation, modification, publication, adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite sans autorisation écrite préalable de l'éditeur.
+              L'ensemble du contenu de ce site (textes, images, logos, structure) est protégé par le droit d'auteur. 
+              Toute reproduction, même partielle, est interdite sans autorisation préalable.
             </p>
 
-            <h3>5. Limitation de responsabilité</h3>
-            <div className="legal-highlight">
-              <strong>⚠️ IMPORTANT :</strong> MonDossierJuridique.fr est un service d'aide à la rédaction de documents juridiques assisté par intelligence artificielle. Ce service NE REMPLACE PAS la consultation d'un avocat.
-            </div>
+            <h3>4. Responsabilité</h3>
             <p>
-              Les documents générés par le service sont des modèles indicatifs destinés à aider les utilisateurs dans leurs démarches. Ils ne constituent en aucun cas un conseil juridique personnalisé.
+              <strong>Important :</strong> MonDossierJuridique.fr est un service d'aide à la constitution de dossiers juridiques assisté par intelligence artificielle.
             </p>
             <p>
-              L'éditeur ne saurait être tenu responsable des dommages directs ou indirects résultant de l'utilisation des documents générés par le service.
+              <strong>Ce service ne constitue pas un conseil juridique personnalisé et ne remplace en aucun cas la consultation d'un avocat inscrit au Barreau.</strong>
             </p>
             <p>
-              Pour toute procédure judiciaire, il est fortement recommandé de consulter un avocat inscrit au barreau.
-            </p>
-
-            <h3>6. Liens hypertextes</h3>
-            <p>
-              Le site peut contenir des liens vers d'autres sites web. L'éditeur n'exerce aucun contrôle sur ces sites et décline toute responsabilité quant à leur contenu.
-            </p>
-
-            <h3>7. Droit applicable</h3>
-            <p>
-              Les présentes mentions légales sont régies par le droit français. En cas de litige, les tribunaux français seront seuls compétents.
+              Les informations générées sont fournies à titre indicatif et doivent être vérifiées par un professionnel du droit avant toute action juridique.
             </p>
           </section>
         )}
@@ -223,85 +221,75 @@ function LegalPage({ onBack, scrollToSection }) {
 
             <h3>1. Responsable du traitement</h3>
             <p>
-              Le responsable du traitement des données personnelles est :<br/><br/>
-              F. Lomme<br/>
-              Auto-entrepreneur – SIRET 827 751 876 00018<br/>
-              Email : contact@mondossierjuridique.fr
+              Le responsable du traitement des données personnelles est :<br/>
+              <strong>F. Lomme</strong> - MonDossierJuridique.fr<br/>
+              Contact : <a href="mailto:contact@mondossierjuridique.fr">contact@mondossierjuridique.fr</a>
             </p>
 
             <h3>2. Données collectées</h3>
-            <p>Dans le cadre de l'utilisation du site et des services, nous collectons les données suivantes :</p>
+            <p>Nous collectons les données suivantes :</p>
             <ul>
               <li><strong>Données d'identification :</strong> adresse email</li>
-              <li><strong>Données de paiement :</strong> traitées exclusivement par notre prestataire Stripe (nous ne stockons pas vos coordonnées bancaires)</li>
-              <li><strong>Données relatives à votre dossier :</strong> informations que vous fournissez dans les questionnaires juridiques</li>
-              <li><strong>Données de navigation :</strong> adresse IP, type de navigateur, pages consultées</li>
+              <li><strong>Données de paiement :</strong> traitées exclusivement par Stripe (nous n'avons pas accès aux numéros de carte)</li>
+              <li><strong>Données de votre dossier :</strong> informations que vous saisissez dans le questionnaire juridique</li>
+              <li><strong>Données de navigation :</strong> cookies techniques nécessaires au fonctionnement</li>
             </ul>
 
             <h3>3. Finalités du traitement</h3>
-            <p>Vos données sont collectées pour :</p>
             <ul>
-              <li>Générer vos dossiers juridiques personnalisés</li>
-              <li>Traiter vos paiements</li>
-              <li>Vous envoyer des communications relatives à votre commande</li>
-              <li>Améliorer nos services</li>
-              <li>Respecter nos obligations légales</li>
+              <li>Génération de votre dossier juridique personnalisé</li>
+              <li>Traitement de votre paiement</li>
+              <li>Communication relative à votre commande</li>
+              <li>Amélioration de nos services</li>
             </ul>
 
-            <h3>4. Base légale du traitement</h3>
-            <p>Le traitement de vos données est fondé sur :</p>
-            <ul>
-              <li><strong>L'exécution du contrat :</strong> pour la fourniture du service commandé</li>
-              <li><strong>Le consentement :</strong> pour l'envoi de communications marketing (si applicable)</li>
-              <li><strong>L'intérêt légitime :</strong> pour l'amélioration de nos services</li>
-              <li><strong>L'obligation légale :</strong> pour la conservation des factures</li>
-            </ul>
+            <h3>4. Base légale</h3>
+            <p>
+              Le traitement de vos données est fondé sur l'exécution du contrat (article 6.1.b du RGPD) lorsque vous utilisez notre service.
+            </p>
 
             <h3>5. Destinataires des données</h3>
-            <p>Vos données peuvent être transmises à :</p>
             <ul>
               <li><strong>Stripe :</strong> pour le traitement des paiements</li>
               <li><strong>Anthropic (Claude) :</strong> pour la génération des dossiers par IA</li>
-              <li><strong>Vercel :</strong> hébergement du site</li>
+              <li><strong>Vercel :</strong> pour l'hébergement du site</li>
             </ul>
-            <p>Ces prestataires sont soumis à des obligations de confidentialité et ne peuvent utiliser vos données qu'aux fins prévues.</p>
+            <p>Ces prestataires sont conformes au RGPD et/ou certifiés Privacy Shield ou utilisent des Clauses Contractuelles Types.</p>
 
             <h3>6. Durée de conservation</h3>
             <ul>
               <li><strong>Données de compte :</strong> 3 ans après la dernière utilisation</li>
               <li><strong>Données de facturation :</strong> 10 ans (obligation légale)</li>
               <li><strong>Données de navigation :</strong> 13 mois maximum</li>
-              <li><strong>Dossiers juridiques générés :</strong> supprimés après téléchargement (non stockés sur nos serveurs)</li>
+              <li><strong>Contenu des dossiers générés :</strong> supprimé immédiatement après téléchargement</li>
             </ul>
 
             <h3>7. Vos droits</h3>
             <p>Conformément au RGPD, vous disposez des droits suivants :</p>
             <ul>
               <li><strong>Droit d'accès :</strong> obtenir une copie de vos données</li>
-              <li><strong>Droit de rectification :</strong> corriger vos données inexactes</li>
+              <li><strong>Droit de rectification :</strong> corriger vos données</li>
               <li><strong>Droit à l'effacement :</strong> demander la suppression de vos données</li>
-              <li><strong>Droit à la limitation :</strong> limiter le traitement de vos données</li>
-              <li><strong>Droit à la portabilité :</strong> recevoir vos données dans un format structuré</li>
+              <li><strong>Droit à la portabilité :</strong> récupérer vos données dans un format standard</li>
               <li><strong>Droit d'opposition :</strong> vous opposer au traitement de vos données</li>
             </ul>
             <p>
-              Pour exercer ces droits, contactez-nous à : <strong>contact@mondossierjuridique.fr</strong>
+              Pour exercer ces droits, contactez-nous à : <a href="mailto:contact@mondossierjuridique.fr">contact@mondossierjuridique.fr</a>
             </p>
             <p>
               Vous pouvez également introduire une réclamation auprès de la CNIL : <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">www.cnil.fr</a>
             </p>
 
-            <h3>8. Sécurité des données</h3>
+            <h3>8. Sécurité</h3>
             <p>
-              Nous mettons en œuvre toutes les mesures techniques et organisationnelles appropriées pour protéger vos données contre tout accès non autorisé, modification, divulgation ou destruction.
-            </p>
-            <p>
-              Notre site utilise le protocole HTTPS (certificat SSL) pour sécuriser les échanges de données.
+              Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger vos données :
+              connexion HTTPS/SSL, chiffrement des données sensibles, accès restreint aux données.
             </p>
 
             <h3>9. Transferts hors UE</h3>
             <p>
-              Certaines données peuvent être transférées vers des prestataires situés aux États-Unis (Vercel, Stripe, Anthropic). Ces transferts sont encadrés par les Clauses Contractuelles Types de la Commission Européenne ou le Data Privacy Framework.
+              Certains de nos prestataires (Vercel, Anthropic) sont situés aux États-Unis. 
+              Ces transferts sont encadrés par des Clauses Contractuelles Types (CCT) ou le Data Privacy Framework.
             </p>
           </section>
         )}
@@ -309,94 +297,68 @@ function LegalPage({ onBack, scrollToSection }) {
         {/* CONDITIONS GÉNÉRALES DE VENTE */}
         {activeSection === 'cgv' && (
           <section id="cgv" className="legal-section">
-            <h2>📋 Conditions Générales de Vente (CGV)</h2>
+            <h2>📜 Conditions Générales de Vente</h2>
             <p className="legal-update">Dernière mise à jour : Décembre 2024</p>
 
             <h3>Article 1 – Objet</h3>
             <p>
-              Les présentes Conditions Générales de Vente (CGV) régissent les relations contractuelles entre le site MonDossierJuridique.fr, édité par F. Lomme (SIRET 827 751 876 00018), ci-après « le Prestataire », et toute personne effectuant un achat sur le site, ci-après « le Client ».
-            </p>
-            <p>
-              Toute commande implique l'acceptation sans réserve des présentes CGV.
+              Les présentes Conditions Générales de Vente (CGV) régissent les relations contractuelles entre 
+              MonDossierJuridique.fr (ci-après "le Prestataire") et toute personne effectuant un achat sur le site 
+              (ci-après "le Client").
             </p>
 
             <h3>Article 2 – Description du service</h3>
             <p>
-              MonDossierJuridique.fr propose un service de génération de dossiers juridiques assisté par intelligence artificielle. Le service permet aux utilisateurs de :
+              MonDossierJuridique.fr propose un service de génération de dossiers juridiques assisté par intelligence artificielle.
             </p>
-            <ul>
-              <li>Répondre à un questionnaire détaillé sur leur situation juridique</li>
-              <li>Obtenir un dossier juridique personnalisé généré par IA</li>
-              <li>Télécharger ce dossier au format numérique</li>
-            </ul>
-            <div className="legal-highlight">
-              <strong>⚠️ IMPORTANT :</strong> Ce service est un outil d'aide à la rédaction et NE REMPLACE PAS la consultation d'un avocat. Les documents fournis sont des modèles indicatifs.
-            </div>
-
-            <h3>Article 3 – Tarifs</h3>
-            <p>Les tarifs en vigueur sont les suivants :</p>
-            <ul>
-              <li><strong>Formule Essentiel :</strong> 29€ TTC – 1 dossier juridique</li>
-              <li><strong>Formule Standard :</strong> 49€ TTC – 3 dossiers juridiques</li>
-              <li><strong>Formule Premium :</strong> 99€ TTC – 10 dossiers juridiques</li>
-            </ul>
             <p>
-              Les prix sont indiqués en euros, toutes taxes comprises (TTC). Le Prestataire se réserve le droit de modifier ses tarifs à tout moment, les services étant facturés au tarif en vigueur au moment de la commande.
+              <strong>Important :</strong> Ce service constitue une aide à la préparation de dossiers juridiques et 
+              <strong> ne remplace en aucun cas les conseils d'un avocat</strong>. Les documents générés doivent être 
+              vérifiés par un professionnel du droit avant toute utilisation dans une procédure juridique.
             </p>
 
-            <h3>Article 4 – Commande</h3>
-            <p>Pour passer commande, le Client doit :</p>
-            <ul>
-              <li>Choisir la formule souhaitée</li>
-              <li>Renseigner son adresse email</li>
-              <li>Procéder au paiement</li>
-            </ul>
+            <h3>Article 3 – Prix</h3>
             <p>
-              La commande est confirmée dès réception du paiement. Un email de confirmation est envoyé au Client.
+              Le prix du service est de <strong>49€ TTC</strong> par dossier juridique, clairement affiché avant tout achat.
+              Les prix sont en euros et toutes taxes comprises (TVA française applicable).
             </p>
 
-            <h3>Article 5 – Paiement</h3>
+            <h3>Article 4 – Commande et paiement</h3>
             <p>
-              Le paiement s'effectue en ligne par carte bancaire via la plateforme sécurisée Stripe. Les cartes acceptées sont : Visa, Mastercard, American Express.
-            </p>
-            <p>
-              Le paiement est exigible immédiatement à la commande. Les données de paiement sont traitées de manière sécurisée et ne sont pas stockées par le Prestataire.
+              Le paiement s'effectue en ligne par carte bancaire via la plateforme sécurisée Stripe.
+              La commande est confirmée après validation du paiement.
             </p>
 
-            <h3>Article 6 – Livraison</h3>
+            <h3>Article 5 – Livraison</h3>
             <p>
-              Le service étant entièrement numérique, la « livraison » consiste en l'accès immédiat à l'application après paiement. Le Client peut alors :
-            </p>
-            <ul>
-              <li>Remplir le questionnaire juridique</li>
-              <li>Générer son dossier</li>
-              <li>Télécharger le document</li>
-            </ul>
-            <p>
-              L'accès au service est immédiat après confirmation du paiement.
+              Le service est délivré immédiatement après le paiement. L'accès à la plateforme de génération 
+              de dossiers est instantané. Le dossier généré est téléchargeable au format numérique.
             </p>
 
-            <h3>Article 7 – Droit de rétractation</h3>
+            <h3>Article 6 – Droit de rétractation</h3>
             <p>
-              Conformément à l'article L221-28 du Code de la consommation, le droit de rétractation ne peut être exercé pour les contrats de fourniture de contenu numérique non fourni sur un support matériel dont l'exécution a commencé avec l'accord préalable exprès du consommateur.
+              Conformément à l'article L221-28 du Code de la consommation, <strong>le droit de rétractation ne peut être exercé</strong> pour 
+              les contrats de fourniture de contenu numérique non fourni sur un support matériel dont l'exécution a commencé 
+              après accord préalable exprès du consommateur et renoncement exprès à son droit de rétractation.
             </p>
             <p>
-              En validant sa commande et en accédant immédiatement au service, le Client reconnaît renoncer expressément à son droit de rétractation.
+              En validant votre commande, vous reconnaissez avoir été informé de cette disposition et y consentez expressément.
             </p>
             <p>
-              <strong>Exception :</strong> Si le service est inaccessible ou défaillant pour des raisons techniques imputables au Prestataire, un remboursement pourra être effectué sur demande à contact@mondossierjuridique.fr
+              <strong>Exception :</strong> En cas de dysfonctionnement technique avéré empêchant l'utilisation du service, 
+              un remboursement pourra être effectué sur demande à contact@mondossierjuridique.fr.
             </p>
 
-            <h3>Article 8 – Responsabilité</h3>
-            <p>Le Prestataire s'engage à fournir un service de qualité. Toutefois :</p>
-            <ul>
-              <li>Les dossiers générés sont des documents d'aide et d'information</li>
-              <li>Ils ne constituent pas un conseil juridique personnalisé</li>
-              <li>Le Prestataire ne peut garantir l'issue d'une procédure judiciaire</li>
-              <li>La responsabilité du Prestataire est limitée au montant de la commande</li>
-            </ul>
+            <h3>Article 7 – Responsabilité</h3>
+            <p>
+              Le Prestataire s'engage à fournir un service de qualité mais ne peut garantir l'adéquation des documents 
+              générés à la situation spécifique du Client, celle-ci nécessitant l'avis d'un professionnel du droit.
+            </p>
+            <p>
+              La responsabilité du Prestataire est limitée au montant de la commande en cas de préjudice direct prouvé.
+            </p>
 
-            <h3>Article 9 – Propriété intellectuelle</h3>
+            <h3>Article 8 – Propriété intellectuelle</h3>
             <p>
               Les dossiers générés par le service sont la propriété du Client qui peut les utiliser librement dans le cadre de ses démarches personnelles.
             </p>
@@ -404,12 +366,12 @@ function LegalPage({ onBack, scrollToSection }) {
               Le Client s'interdit de revendre ou de diffuser commercialement les documents générés.
             </p>
 
-            <h3>Article 10 – Protection des données</h3>
+            <h3>Article 9 – Protection des données</h3>
             <p>
               Le traitement des données personnelles est détaillé dans notre Politique de Confidentialité accessible sur ce site.
             </p>
 
-            <h3>Article 11 – Réclamations et médiation</h3>
+            <h3>Article 10 – Réclamations et médiation</h3>
             <p>
               Pour toute réclamation, le Client peut contacter le Prestataire à l'adresse : <strong>contact@mondossierjuridique.fr</strong>
             </p>
@@ -425,7 +387,7 @@ function LegalPage({ onBack, scrollToSection }) {
               Plateforme européenne de règlement en ligne des litiges : <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer">https://ec.europa.eu/consumers/odr</a>
             </p>
 
-            <h3>Article 12 – Droit applicable</h3>
+            <h3>Article 11 – Droit applicable</h3>
             <p>
               Les présentes CGV sont soumises au droit français. Tout litige relatif à leur interprétation ou exécution relève de la compétence des tribunaux français.
             </p>
@@ -495,7 +457,6 @@ function LegalPage({ onBack, scrollToSection }) {
 
 export default function MonDossierJuridique() {
   const [currentView, setCurrentView] = useState('landing');
-  const [selectedPlan, setSelectedPlan] = useState(null);
   const [userEmail, setUserEmail] = useState('');
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [paymentError, setPaymentError] = useState('');
@@ -541,7 +502,7 @@ export default function MonDossierJuridique() {
       const response = await fetch('/api/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan: selectedPlan, email: userEmail })
+        body: JSON.stringify({ plan: 'single', email: userEmail })
       });
       
       const data = await response.json();
@@ -549,390 +510,383 @@ export default function MonDossierJuridique() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        throw new Error(data.error || 'Erreur');
+        setPaymentError(data.error || 'Erreur lors de la création du paiement');
+        setPaymentLoading(false);
       }
-    } catch (error) {
-      setPaymentError('Erreur de paiement. Veuillez réessayer.');
+    } catch (err) {
+      setPaymentError('Erreur de connexion. Réessayez.');
       setPaymentLoading(false);
     }
   };
 
-  const generateDossier = async () => {
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleSubmitDossier = async () => {
     setLoading(true);
-    const domaine = DOMAINES[selectedDomaine];
-    
-    const prompt = `Tu es un avocat expert en ${domaine.nom}. Génère un DOSSIER JURIDIQUE COMPLET:
-
-INFORMATIONS:
-${Object.entries(formData).map(([k,v]) => `- ${k}: ${v}`).join('\n')}
-
-Structure obligatoire:
-╔══════════════════════════════════════════════════════════════════════════════╗
-║                         DOSSIER JURIDIQUE COMPLET                            ║
-╚══════════════════════════════════════════════════════════════════════════════╝
-
-I. SYNTHÈSE EXÉCUTIVE
-II. QUALIFICATION JURIDIQUE
-III. ANALYSE (Points forts, Vigilances, Risques)
-IV. TEXTES APPLICABLES (Articles de loi EXACTS)
-V. JURISPRUDENCE (Décisions récentes avec références)
-VI. STRATÉGIE PROCÉDURALE
-VII. DEMANDES CHIFFRÉES
-VIII. CHANCES DE SUCCÈS (%)
-IX. ESTIMATION FRAIS
-X. PIÈCES À RASSEMBLER
-XI. MODÈLE MISE EN DEMEURE
-XII. CONSEILS PRATIQUES
-
-Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONNEL.`;
-
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          messages: [{ role: 'user', content: prompt }],
-          system: "Tu es un avocat expert français. Utilise web_search pour les jurisprudences récentes.",
-          max_tokens: 12000,
+          message: `GÉNÈRE UN DOSSIER JURIDIQUE COMPLET pour ce cas :
+          
+Domaine : ${DOMAINES[selectedDomaine]?.nom || selectedDomaine}
+Catégorie : ${selectedCategorie}
+${Object.entries(formData).map(([k,v]) => `${k}: ${v}`).join('\n')}
+
+STRUCTURE OBLIGATOIRE DU DOSSIER (40-60 pages) :
+
+1. PAGE DE GARDE
+2. SOMMAIRE
+3. RÉSUMÉ EXÉCUTIF (2 pages)
+4. EXPOSÉ DES FAITS (5 pages)
+5. ANALYSE JURIDIQUE COMPLÈTE (15 pages)
+   - Textes de loi applicables (citations exactes)
+   - Jurisprudence pertinente (10 décisions minimum avec références)
+6. ARGUMENTATION (10 pages)
+7. CALCUL DES PRÉJUDICES/INDEMNITÉS (si applicable)
+8. STRATÉGIE PROCÉDURALE
+9. MODÈLES DE DOCUMENTS (mise en demeure, etc.)
+10. ANNEXES ET PIÈCES À RÉUNIR
+11. CONCLUSION ET RECOMMANDATIONS`,
+          context: []
         })
       });
-
+      
       const data = await response.json();
-      if (data.content) {
-        const text = data.content.find(c => c.type === 'text');
-        if (text) {
-          setDossierGenere(text.text);
-          setChatMessages([{ role: 'assistant', content: '✅ Dossier généré ! Je suis votre assistant. Posez vos questions.' }]);
-        }
-      }
-    } catch (error) {
+      setDossierGenere(data.response);
+    } catch (err) {
       setDossierGenere("Erreur lors de la génération. Veuillez réessayer.");
     }
     setLoading(false);
   };
 
-  const sendChat = async () => {
-    if (!chatInput.trim() || chatLoading) return;
-    const msg = chatInput.trim();
+  const handleChat = async () => {
+    if (!chatInput.trim()) return;
+    
+    const userMessage = chatInput;
     setChatInput('');
-    setChatMessages(prev => [...prev, { role: 'user', content: msg }]);
+    setChatMessages(prev => [...prev, { role: 'user', content: userMessage }]);
     setChatLoading(true);
-
+    
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          messages: [...chatMessages, { role: 'user', content: msg }],
-          system: `Assistant juridique. Contexte: ${dossierGenere?.substring(0, 2000)}...`,
-          max_tokens: 4000,
+          message: userMessage,
+          context: chatMessages.slice(-6)
         })
       });
+      
       const data = await response.json();
-      if (data.content) {
-        const text = data.content.find(c => c.type === 'text');
-        if (text) setChatMessages(prev => [...prev, { role: 'assistant', content: text.text }]);
-      }
-    } catch (error) {
-      setChatMessages(prev => [...prev, { role: 'assistant', content: "Erreur. Réessayez." }]);
+      setChatMessages(prev => [...prev, { role: 'assistant', content: data.response }]);
+    } catch (err) {
+      setChatMessages(prev => [...prev, { role: 'assistant', content: "Erreur de connexion." }]);
     }
     setChatLoading(false);
   };
 
-  const downloadDossier = () => {
-    if (!dossierGenere) return;
-    const blob = new Blob([dossierGenere], { type: 'text/plain' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `Dossier-Juridique-${new Date().toISOString().split('T')[0]}.txt`;
-    a.click();
+  const downloadPDF = () => {
+    const element = document.createElement('a');
+    const file = new Blob([dossierGenere], {type: 'text/plain'});
+    element.href = URL.createObjectURL(file);
+    element.download = 'MonDossierJuridique.txt';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
   };
 
-  const goToLegal = (section = null) => {
-    setLegalSection(section);
-    setCurrentView('legal');
-    window.scrollTo(0, 0);
-  };
-
-  const styles = `
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+Pro:wght@400;600;700&display=swap');
-    :root { --primary:#1a1a2e; --gold:#c9a227; --gold-light:#e3c565; --text:#2d3748; --muted:#718096; --border:#e2e8f0; --bg:#f8f9fa; --success:#059669; --error:#dc2626; }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:'Source Sans Pro',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
-    
-    .navbar { position:fixed; top:0; left:0; right:0; background:rgba(26,26,46,0.95); backdrop-filter:blur(10px); z-index:1000; padding:1rem 2rem; }
-    .navbar-inner { max-width:1400px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
-    .nav-logo { display:flex; align-items:center; gap:0.75rem; cursor:pointer; }
-    .nav-logo h1 { font-family:'Playfair Display',serif; font-size:1.4rem; background:linear-gradient(135deg,var(--gold),var(--gold-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-    .nav-links { display:flex; gap:2rem; align-items:center; }
-    .nav-link { color:rgba(255,255,255,0.8); text-decoration:none; cursor:pointer; }
-    .nav-link:hover { color:var(--gold); }
-    .nav-cta { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:white; padding:0.6rem 1.5rem; border-radius:25px; font-weight:600; border:none; cursor:pointer; }
-    
-    .hero { min-height:100vh; background:linear-gradient(135deg,var(--primary),#16213e,#1e3a5f); display:flex; align-items:center; padding:8rem 2rem 4rem; }
-    .hero-inner { max-width:1200px; margin:0 auto; text-align:center; }
-    .hero-badge { display:inline-flex; align-items:center; gap:0.5rem; background:rgba(201,162,39,0.15); border:1px solid rgba(201,162,39,0.3); padding:0.5rem 1rem; border-radius:25px; color:var(--gold-light); margin-bottom:1.5rem; }
-    .hero h1 { font-family:'Playfair Display',serif; font-size:3rem; color:white; margin-bottom:1.5rem; }
-    .hero h1 span { background:linear-gradient(135deg,var(--gold),var(--gold-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-    .hero-subtitle { font-size:1.2rem; color:rgba(255,255,255,0.8); margin-bottom:2rem; max-width:700px; margin-left:auto; margin-right:auto; }
-    .hero-stats { display:flex; justify-content:center; gap:3rem; margin-bottom:2.5rem; flex-wrap:wrap; }
-    .hero-stat-value { font-size:2.5rem; font-weight:700; color:var(--gold); font-family:'Playfair Display',serif; }
-    .hero-stat-label { font-size:0.85rem; color:rgba(255,255,255,0.6); }
-    .hero-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
-    .btn { padding:1rem 2rem; border-radius:30px; font-size:1rem; font-weight:600; cursor:pointer; border:none; transition:all 0.3s; }
-    .btn-primary { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:white; }
-    .btn-primary:hover { transform:translateY(-3px); box-shadow:0 8px 25px rgba(201,162,39,0.4); }
-    .btn-secondary { background:rgba(255,255,255,0.1); color:white; border:2px solid rgba(255,255,255,0.3); }
-    
-    .section { padding:5rem 2rem; }
-    .section-white { background:white; }
-    .section-header { text-align:center; max-width:700px; margin:0 auto 3rem; }
-    .section-badge { display:inline-block; background:rgba(201,162,39,0.1); color:var(--gold); padding:0.4rem 1rem; border-radius:20px; font-size:0.85rem; font-weight:600; margin-bottom:1rem; }
-    .section-title { font-family:'Playfair Display',serif; font-size:2.25rem; color:var(--primary); margin-bottom:1rem; }
-    .section-subtitle { color:var(--muted); font-size:1.1rem; }
-    
-    .legal-stats-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; }
-    .legal-stat-card { background:linear-gradient(135deg,var(--primary),#16213e); border-radius:16px; padding:1.75rem; text-align:center; color:white; }
-    .legal-stat-icon { font-size:2.5rem; margin-bottom:0.75rem; }
-    .legal-stat-value { font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:700; background:linear-gradient(135deg,var(--gold),var(--gold-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:0.25rem; }
-    .legal-stat-label { font-size:1rem; font-weight:600; margin-bottom:0.5rem; }
-    .legal-stat-desc { font-size:0.8rem; color:rgba(255,255,255,0.6); line-height:1.4; }
-    .legal-sources { text-align:center; margin-top:2rem; padding:1rem; background:rgba(201,162,39,0.1); border-radius:10px; max-width:800px; margin-left:auto; margin-right:auto; }
-    .legal-sources p { color:var(--muted); font-size:0.85rem; margin:0; }
-    
-    .hero-trust { margin-top:2rem; }
-    .hero-trust p { color:rgba(255,255,255,0.7); font-size:0.9rem; }
-    
-    .usecases-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
-    .usecase-card { background:white; border-radius:16px; padding:2rem; box-shadow:0 4px 15px rgba(0,0,0,0.05); border:2px solid var(--border); transition:all 0.3s; }
-    .usecase-card:hover { border-color:var(--gold); transform:translateY(-3px); box-shadow:0 8px 25px rgba(0,0,0,0.1); }
-    .usecase-icon { font-size:2.5rem; margin-bottom:1rem; }
-    .usecase-card h3 { font-family:'Playfair Display',serif; font-size:1.25rem; color:var(--primary); margin-bottom:0.75rem; }
-    .usecase-card p { color:var(--text); font-size:0.95rem; margin-bottom:1rem; line-height:1.6; }
-    .usecase-card ul { list-style:none; }
-    .usecase-card ul li { color:var(--muted); font-size:0.85rem; padding:0.25rem 0; }
-    
-    .faq-container { max-width:800px; margin:0 auto; }
-    .faq-item { background:white; border:2px solid var(--border); border-radius:12px; margin-bottom:1rem; overflow:hidden; }
-    .faq-item[open] { border-color:var(--gold); }
-    .faq-question { padding:1.25rem 1.5rem; cursor:pointer; font-weight:600; color:var(--primary); font-size:1rem; list-style:none; display:flex; justify-content:space-between; align-items:center; }
-    .faq-question::-webkit-details-marker { display:none; }
-    .faq-question::after { content:'▼'; font-size:0.75rem; color:var(--gold); transition:transform 0.3s; }
-    .faq-item[open] .faq-question::after { transform:rotate(180deg); }
-    .faq-answer { padding:0 1.5rem 1.25rem; color:var(--text); line-height:1.7; font-size:0.95rem; }
-    
-    .cta-section { background:linear-gradient(135deg,var(--primary),#16213e); padding:4rem 2rem; }
-    .cta-container { max-width:700px; margin:0 auto; text-align:center; }
-    .cta-container h2 { font-family:'Playfair Display',serif; font-size:2.25rem; color:white; margin-bottom:1rem; }
-    .cta-container p { color:rgba(255,255,255,0.8); font-size:1.1rem; margin-bottom:2rem; }
-    .btn-large { padding:1.25rem 2.5rem; font-size:1.1rem; }
-    .cta-guarantees { display:flex; justify-content:center; gap:2rem; margin-top:1.5rem; flex-wrap:wrap; }
-    .cta-guarantees span { color:rgba(255,255,255,0.7); font-size:0.9rem; }
-    
-    .comparison-grid { max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr auto 1fr; gap:2rem; }
-    .comparison-card { background:white; border-radius:20px; padding:2rem; border:2px solid var(--border); }
-    .comparison-card.modern { border-color:var(--gold); box-shadow:0 10px 40px rgba(201,162,39,0.15); }
-    .comparison-header { text-align:center; margin-bottom:1.5rem; }
-    .comparison-icon { font-size:2.5rem; margin-bottom:0.5rem; }
-    .comparison-title { font-size:1.25rem; color:var(--primary); }
-    .comparison-price { font-size:1.75rem; font-weight:700; }
-    .comparison-card:not(.modern) .comparison-price { color:var(--error); }
-    .comparison-card.modern .comparison-price { color:var(--success); }
-    .comparison-list { list-style:none; }
-    .comparison-list li { padding:0.6rem 0; border-bottom:1px solid var(--border); font-size:0.95rem; }
-    .vs-badge { background:var(--primary); color:white; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; align-self:center; }
-    
-    .steps-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; }
-    .step-card { text-align:center; padding:1.5rem; }
-    .step-number { width:50px; height:50px; margin:0 auto 1rem; background:linear-gradient(135deg,var(--gold),var(--gold-light)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.25rem; font-weight:700; color:white; }
-    .step-icon { font-size:2rem; margin-bottom:0.75rem; }
-    .step-title { font-size:1.1rem; color:var(--primary); margin-bottom:0.5rem; }
-    .step-desc { color:var(--muted); font-size:0.9rem; }
-    
-    .testimonials-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
-    .testimonial-card { background:white; border-radius:16px; padding:1.5rem; box-shadow:0 4px 15px rgba(0,0,0,0.05); }
-    .testimonial-header { display:flex; align-items:center; gap:1rem; margin-bottom:1rem; }
-    .testimonial-avatar { width:50px; height:50px; background:linear-gradient(135deg,var(--gold),var(--gold-light)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; }
-    .testimonial-info h4 { color:var(--primary); font-size:1rem; }
-    .testimonial-info span { color:var(--muted); font-size:0.85rem; }
-    .testimonial-stars { color:var(--gold); font-size:0.9rem; }
-    .testimonial-text { color:var(--text); font-style:italic; margin-bottom:1rem; font-size:0.95rem; }
-    .testimonial-results { display:flex; gap:2rem; padding-top:1rem; border-top:1px solid var(--border); }
-    .testimonial-result { display:flex; align-items:center; gap:0.5rem; }
-    .testimonial-result-value { font-weight:700; color:var(--primary); }
-    .testimonial-result-label { font-size:0.75rem; color:var(--muted); }
-    
-    .pricing-grid { max-width:1000px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
-    .pricing-card { background:white; border:2px solid var(--border); border-radius:20px; padding:2rem; position:relative; transition:all 0.3s; }
-    .pricing-card:hover { transform:translateY(-5px); box-shadow:0 15px 40px rgba(0,0,0,0.1); }
-    .pricing-card.popular { border-color:var(--gold); transform:scale(1.03); box-shadow:0 15px 40px rgba(201,162,39,0.2); }
-    .pricing-popular-badge { position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:white; padding:0.4rem 1.25rem; border-radius:20px; font-size:0.8rem; font-weight:600; }
-    .pricing-header { text-align:center; margin-bottom:1.5rem; }
-    .pricing-name { font-size:1.25rem; color:var(--primary); margin-bottom:0.25rem; }
-    .pricing-desc { color:var(--muted); font-size:0.9rem; margin-bottom:1rem; }
-    .pricing-amount { font-size:3rem; font-weight:700; color:var(--primary); }
-    .pricing-features { list-style:none; margin-bottom:1.5rem; }
-    .pricing-features li { display:flex; align-items:center; gap:0.5rem; padding:0.5rem 0; font-size:0.95rem; }
-    .pricing-features li::before { content:'✓'; color:var(--success); font-weight:bold; }
-    .pricing-cta { display:block; width:100%; padding:0.9rem; border-radius:10px; font-size:1rem; font-weight:600; cursor:pointer; border:none; transition:all 0.3s; }
-    .pricing-card:not(.popular) .pricing-cta { background:var(--bg); color:var(--primary); }
-    .pricing-card:not(.popular) .pricing-cta:hover { background:var(--gold); color:white; }
-    .pricing-card.popular .pricing-cta { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:white; }
-    
-    .payment-page { min-height:100vh; background:var(--bg); padding:6rem 2rem 4rem; }
-    .payment-container { max-width:450px; margin:0 auto; }
-    .payment-card { background:white; border-radius:20px; padding:2rem; box-shadow:0 4px 20px rgba(0,0,0,0.05); }
-    .payment-title { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--primary); text-align:center; margin-bottom:0.5rem; }
-    .payment-subtitle { color:var(--muted); text-align:center; margin-bottom:1.5rem; }
-    .payment-plan { background:var(--bg); border-radius:12px; padding:1.25rem; margin-bottom:1.5rem; text-align:center; }
-    .payment-plan-name { font-weight:600; color:var(--primary); font-size:1.1rem; }
-    .payment-plan-price { font-size:2rem; font-weight:700; color:var(--gold); }
-    .form-group { margin-bottom:1.25rem; }
-    .form-label { display:block; font-weight:600; color:var(--primary); margin-bottom:0.4rem; font-size:0.95rem; }
-    .form-input { width:100%; padding:0.9rem; border:2px solid var(--border); border-radius:10px; font-size:1rem; }
-    .form-input:focus { outline:none; border-color:var(--gold); }
-    .payment-btn { width:100%; padding:1.1rem; background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:white; border:none; border-radius:12px; font-size:1.05rem; font-weight:600; cursor:pointer; }
-    .payment-btn:disabled { opacity:0.7; cursor:not-allowed; }
-    .payment-error { background:rgba(220,38,38,0.1); color:var(--error); padding:0.75rem; border-radius:8px; margin-bottom:1rem; text-align:center; font-size:0.9rem; }
-    .payment-secure { display:flex; align-items:center; justify-content:center; gap:0.5rem; margin-top:1.25rem; color:var(--muted); font-size:0.85rem; }
-    
-    .app-container { max-width:1100px; margin:0 auto; padding:6rem 2rem 2rem; }
-    .app-header { text-align:center; margin-bottom:2rem; }
-    .app-header h1 { font-family:'Playfair Display',serif; font-size:2rem; color:var(--primary); }
-    .domains-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1.25rem; }
-    .domain-card { background:white; border:2px solid var(--border); border-radius:14px; padding:1.25rem; cursor:pointer; transition:all 0.3s; text-align:center; }
-    .domain-card:hover { border-color:var(--gold); transform:translateY(-3px); }
-    .domain-icon { font-size:2.25rem; margin-bottom:0.75rem; }
-    .domain-name { font-size:1.1rem; font-weight:600; color:var(--primary); }
-    .categories-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; margin-top:1.5rem; }
-    .category-card { background:white; border:2px solid var(--border); border-radius:10px; padding:1rem; cursor:pointer; transition:all 0.2s; }
-    .category-card:hover { border-color:var(--gold); }
-    .category-card.autre { border-style:dashed; }
-    .category-name { font-weight:600; color:var(--primary); font-size:0.95rem; }
-    .category-desc { color:var(--muted); font-size:0.8rem; }
-    
-    .questionnaire { background:white; border-radius:16px; padding:1.5rem; margin-top:1.5rem; }
-    .questionnaire h2 { font-family:'Playfair Display',serif; color:var(--primary); margin-bottom:1.5rem; font-size:1.25rem; }
-    .form-textarea { width:100%; min-height:100px; padding:0.9rem; border:2px solid var(--border); border-radius:10px; font-size:1rem; font-family:inherit; resize:vertical; }
-    .form-textarea:focus { outline:none; border-color:var(--gold); }
-    .form-select { width:100%; padding:0.9rem; border:2px solid var(--border); border-radius:10px; font-size:1rem; background:white; }
-    .submit-btn { width:100%; padding:1.1rem; background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:white; border:none; border-radius:10px; font-size:1rem; font-weight:600; cursor:pointer; margin-top:1.5rem; }
-    .submit-btn:disabled { opacity:0.7; cursor:not-allowed; }
-    
-    .dossier-container { background:white; border-radius:16px; padding:1.5rem; margin-top:1.5rem; }
-    .dossier-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem; }
-    .dossier-content { background:var(--primary); border-radius:10px; padding:1.5rem; color:#10b981; font-family:monospace; font-size:0.8rem; white-space:pre-wrap; max-height:500px; overflow-y:auto; }
-    .download-btn { padding:0.6rem 1.25rem; background:var(--success); color:white; border:none; border-radius:8px; font-weight:600; cursor:pointer; }
-    
-    .chat-button { position:fixed; bottom:1.5rem; right:1.5rem; width:55px; height:55px; background:linear-gradient(135deg,var(--gold),var(--gold-light)); border:none; border-radius:50%; font-size:1.4rem; cursor:pointer; box-shadow:0 4px 15px rgba(201,162,39,0.4); z-index:100; }
-    .chat-panel { position:fixed; bottom:5.5rem; right:1.5rem; width:350px; max-height:450px; background:white; border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,0.2); z-index:100; display:flex; flex-direction:column; }
-    .chat-header { background:var(--primary); color:white; padding:0.9rem 1.25rem; border-radius:16px 16px 0 0; display:flex; justify-content:space-between; align-items:center; }
-    .chat-messages { flex:1; overflow-y:auto; padding:1rem; max-height:300px; }
-    .chat-message { margin-bottom:0.75rem; padding:0.75rem; border-radius:10px; font-size:0.9rem; }
-    .chat-message.user { background:var(--bg); margin-left:1.5rem; }
-    .chat-message.assistant { background:rgba(201,162,39,0.1); margin-right:1.5rem; }
-    .chat-input-container { padding:0.75rem; border-top:1px solid var(--border); display:flex; gap:0.5rem; }
-    .chat-input { flex:1; padding:0.6rem; border:2px solid var(--border); border-radius:8px; font-size:0.9rem; }
-    .chat-send { padding:0.6rem 0.9rem; background:var(--gold); color:white; border:none; border-radius:8px; cursor:pointer; }
-    
-    .footer { background:var(--primary); color:white; padding:2.5rem 2rem 1.5rem; margin-top:3rem; }
-    .footer-inner { max-width:1100px; margin:0 auto; text-align:center; }
-    .footer h3 { font-family:'Playfair Display',serif; background:linear-gradient(135deg,var(--gold),var(--gold-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:0.75rem; }
-    .footer p { color:rgba(255,255,255,0.6); font-size:0.85rem; }
-    .footer-links { display:flex; justify-content:center; gap:1.5rem; margin-top:1rem; flex-wrap:wrap; }
-    .footer-link { color:rgba(255,255,255,0.6); font-size:0.8rem; cursor:pointer; text-decoration:none; transition:color 0.2s; }
-    .footer-link:hover { color:var(--gold); }
-    
-    .loading-spinner { width:40px; height:40px; border:3px solid var(--border); border-top-color:var(--gold); border-radius:50%; animation:spin 1s linear infinite; margin:1.5rem auto; }
-    @keyframes spin { to { transform:rotate(360deg); } }
-    
-    .back-btn { background:none; border:none; color:var(--gold); cursor:pointer; margin-bottom:1rem; font-size:0.95rem; }
-    
-    /* LEGAL PAGE STYLES */
-    .legal-page { min-height:100vh; background:var(--bg); padding:5rem 1rem 2rem; }
-    .legal-container { max-width:900px; margin:0 auto; }
-    .legal-back-btn { display:inline-block; margin-bottom:1.5rem; padding:0.6rem 1.2rem; background:var(--primary); color:white; border:none; border-radius:8px; cursor:pointer; font-size:0.9rem; }
-    .legal-back-btn:hover { background:var(--gold); }
-    .legal-nav { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:2rem; }
-    .legal-nav button { padding:0.6rem 1.2rem; background:white; color:var(--primary); border:2px solid var(--border); border-radius:8px; cursor:pointer; font-size:0.9rem; transition:all 0.2s; }
-    .legal-nav button:hover { border-color:var(--gold); }
-    .legal-nav button.active { background:var(--gold); color:white; border-color:var(--gold); }
-    .legal-section { background:white; border-radius:16px; padding:2rem; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
-    .legal-section h2 { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--primary); margin-bottom:1rem; padding-bottom:0.75rem; border-bottom:2px solid var(--gold); }
-    .legal-section h3 { color:var(--primary); font-size:1.1rem; margin:1.5rem 0 0.75rem 0; }
-    .legal-section p { margin-bottom:1rem; text-align:justify; line-height:1.7; }
-    .legal-section ul { margin:1rem 0 1rem 1.5rem; }
-    .legal-section ul li { margin-bottom:0.5rem; line-height:1.6; }
-    .legal-section a { color:var(--gold); }
-    .legal-update { font-style:italic; color:var(--muted); font-size:0.9rem; margin-bottom:1.5rem; }
-    .legal-highlight { background:rgba(201,162,39,0.1); padding:1rem; border-radius:8px; border-left:4px solid var(--gold); margin:1.5rem 0; }
-    .legal-footer-info { text-align:center; margin-top:2rem; padding:1.5rem; color:var(--muted); font-size:0.85rem; }
-    .legal-footer-info p { margin-bottom:0.25rem; text-align:center; }
-    
-    @media (max-width:1024px) {
-      .comparison-grid { grid-template-columns:1fr; }
-      .vs-badge { display:none; }
-      .steps-grid { grid-template-columns:repeat(2,1fr); }
-      .testimonials-grid { grid-template-columns:1fr; }
-      .pricing-grid { grid-template-columns:1fr; max-width:350px; }
-      .pricing-card.popular { transform:none; }
-      .legal-stats-grid { grid-template-columns:repeat(2,1fr); }
-      .usecases-grid { grid-template-columns:1fr; }
-    }
-    @media (max-width:768px) {
-      .nav-links { display:none; }
-      .hero h1 { font-size:2rem; }
-      .hero-stats { gap:1.5rem; }
-      .section-title { font-size:1.75rem; }
-      .steps-grid { grid-template-columns:1fr; }
-      .chat-panel { width:calc(100% - 2rem); right:1rem; }
-      .legal-section { padding:1.5rem; }
-      .legal-nav button { padding:0.5rem 0.8rem; font-size:0.8rem; }
-      .legal-stats-grid { grid-template-columns:1fr; max-width:300px; margin:0 auto; }
-      .legal-stat-card { padding:1.25rem; }
-      .legal-stat-value { font-size:2rem; }
-      .cta-container h2 { font-size:1.75rem; }
-      .cta-guarantees { gap:1rem; }
-      .cta-guarantees span { font-size:0.8rem; }
-      .faq-question { font-size:0.9rem; padding:1rem; }
-      .faq-answer { padding:0 1rem 1rem; font-size:0.9rem; }
-    }
-  `;
-
-  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  const reset = () => { setCurrentView('landing'); setSelectedDomaine(null); setSelectedCategorie(null); setDossierGenere(null); setFormData({}); };
-
-  // ══════════════════════════════════════════════════════════════════════════════
-  // RENDER
-  // ══════════════════════════════════════════════════════════════════════════════
+  // LEGAL PAGE VIEW
+  if (currentView === 'legal') {
+    return (
+      <>
+        <style>{`
+          :root { --primary:#1a1a2e; --gold:#c9a227; --gold-light:#d4af37; --bg:#f8f9fa; --text:#2d3748; --muted:#6b7280; --border:#e5e7eb; --success:#059669; --error:#dc2626; }
+          * { margin:0; padding:0; box-sizing:border-box; }
+          body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+          .legal-page { min-height:100vh; background:var(--bg); }
+          .legal-header { background:linear-gradient(135deg,var(--primary),#16213e); color:white; padding:2rem; text-align:center; }
+          .legal-header h1 { font-family:'Playfair Display',serif; font-size:2rem; margin-top:1rem; }
+          .legal-back-btn { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.3); color:white; padding:0.5rem 1rem; border-radius:8px; cursor:pointer; transition:all 0.3s; }
+          .legal-back-btn:hover { background:rgba(255,255,255,0.2); }
+          .legal-content { max-width:900px; margin:0 auto; padding:2rem; }
+          .legal-nav { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:2rem; padding:1rem; background:white; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+          .legal-nav button { padding:0.75rem 1.25rem; border:2px solid var(--border); background:white; border-radius:8px; cursor:pointer; font-weight:500; transition:all 0.3s; }
+          .legal-nav button:hover { border-color:var(--gold); }
+          .legal-nav button.active { background:var(--gold); color:white; border-color:var(--gold); }
+          .legal-section { background:white; border-radius:16px; padding:2.5rem; box-shadow:0 4px 15px rgba(0,0,0,0.05); }
+          .legal-section h2 { font-family:'Playfair Display',serif; font-size:1.75rem; color:var(--primary); margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:2px solid var(--gold); }
+          .legal-section h3 { font-size:1.1rem; color:var(--primary); margin:1.5rem 0 0.75rem; }
+          .legal-section p { margin-bottom:1rem; }
+          .legal-section ul { margin:1rem 0; padding-left:1.5rem; }
+          .legal-section li { margin-bottom:0.5rem; }
+          .legal-section a { color:var(--gold); }
+          .legal-update { color:var(--muted); font-size:0.9rem; font-style:italic; margin-bottom:1.5rem; }
+          .legal-footer-info { text-align:center; margin-top:2rem; padding:1.5rem; color:var(--muted); font-size:0.9rem; }
+        `}</style>
+        <LegalPage onBack={() => setCurrentView('landing')} scrollToSection={legalSection} />
+      </>
+    );
+  }
 
   return (
     <>
-      <style>{styles}</style>
-      
-      {/* NAVBAR */}
-      <nav className="navbar">
-        <div className="navbar-inner">
-          <div className="nav-logo" onClick={reset}>
-            <span>⚖️</span>
-            <h1>MonDossierJuridique</h1>
-          </div>
-          {currentView === 'landing' && (
-            <div className="nav-links">
-              <span className="nav-link" onClick={() => scrollTo('how')}>Comment ça marche</span>
-              <span className="nav-link" onClick={() => scrollTo('usecases')}>Cas d'usage</span>
-              <span className="nav-link" onClick={() => scrollTo('faq')}>FAQ</span>
-              <span className="nav-link" onClick={() => scrollTo('pricing')}>Tarifs</span>
-              <button className="nav-cta" onClick={() => scrollTo('pricing')}>Commencer</button>
-            </div>
-          )}
-        </div>
-      </nav>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+        :root { --primary:#1a1a2e; --gold:#c9a227; --gold-light:#d4af37; --bg:#f8f9fa; --text:#2d3748; --muted:#6b7280; --border:#e5e7eb; --success:#059669; --error:#dc2626; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+        
+        .nav { position:fixed; top:0; left:0; right:0; z-index:1000; background:rgba(26,26,46,0.95); backdrop-filter:blur(10px); padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; }
+        .nav-logo { display:flex; align-items:center; gap:0.5rem; font-weight:700; font-size:1.2rem; color:white; }
+        .nav-logo span { color:var(--gold); }
+        .nav-links { display:flex; gap:2rem; align-items:center; }
+        .nav-link { color:rgba(255,255,255,0.8); text-decoration:none; font-size:0.95rem; cursor:pointer; transition:color 0.3s; }
+        .nav-link:hover { color:var(--gold); }
+        .nav-cta { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:white; padding:0.6rem 1.25rem; border-radius:25px; font-weight:600; font-size:0.9rem; border:none; cursor:pointer; }
+        
+        .hero { min-height:100vh; background:linear-gradient(135deg,var(--primary) 0%,#16213e 50%,var(--primary) 100%); display:flex; align-items:center; justify-content:center; text-align:center; padding:6rem 2rem 4rem; }
+        .hero-inner { max-width:800px; }
+        .hero-badge { display:inline-flex; align-items:center; gap:0.5rem; background:rgba(201,162,39,0.15); border:1px solid rgba(201,162,39,0.3); padding:0.5rem 1.25rem; border-radius:30px; font-size:0.9rem; color:var(--gold); margin-bottom:1.5rem; }
+        .hero h1 { font-family:'Playfair Display',serif; font-size:3rem; color:white; line-height:1.2; margin-bottom:1.5rem; }
+        .hero h1 span { color:var(--gold); }
+        .hero-subtitle { font-size:1.2rem; color:rgba(255,255,255,0.8); max-width:600px; margin:0 auto 2rem; }
+        .hero-stats { display:flex; justify-content:center; gap:3rem; margin-bottom:2.5rem; }
+        .hero-stat-value { font-size:2rem; font-weight:700; color:var(--gold); }
+        .hero-stat-label { font-size:0.85rem; color:rgba(255,255,255,0.6); }
+        .hero-buttons { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+        .btn { padding:1rem 2rem; border-radius:30px; font-size:1rem; font-weight:600; cursor:pointer; border:none; transition:all 0.3s; }
+        .btn-primary { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:white; }
+        .btn-primary:hover { transform:translateY(-3px); box-shadow:0 8px 25px rgba(201,162,39,0.4); }
+        .btn-secondary { background:rgba(255,255,255,0.1); color:white; border:2px solid rgba(255,255,255,0.3); }
+        
+        .section { padding:5rem 2rem; }
+        .section-white { background:white; }
+        .section-header { text-align:center; max-width:700px; margin:0 auto 3rem; }
+        .section-badge { display:inline-block; background:rgba(201,162,39,0.1); color:var(--gold); padding:0.4rem 1rem; border-radius:20px; font-size:0.85rem; font-weight:600; margin-bottom:1rem; }
+        .section-title { font-family:'Playfair Display',serif; font-size:2.25rem; color:var(--primary); margin-bottom:1rem; }
+        .section-subtitle { color:var(--muted); font-size:1.1rem; }
+        
+        .legal-stats-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; }
+        .legal-stat-card { background:linear-gradient(135deg,var(--primary),#16213e); border-radius:16px; padding:1.75rem; text-align:center; color:white; }
+        .legal-stat-icon { font-size:2.5rem; margin-bottom:0.75rem; }
+        .legal-stat-value { font-family:'Playfair Display',serif; font-size:2.5rem; font-weight:700; background:linear-gradient(135deg,var(--gold),var(--gold-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:0.25rem; }
+        .legal-stat-label { font-size:1rem; font-weight:600; margin-bottom:0.5rem; }
+        .legal-stat-desc { font-size:0.8rem; color:rgba(255,255,255,0.6); line-height:1.4; }
+        .legal-sources { text-align:center; margin-top:2rem; padding:1rem; background:rgba(201,162,39,0.1); border-radius:10px; max-width:800px; margin-left:auto; margin-right:auto; }
+        .legal-sources p { color:var(--muted); font-size:0.85rem; margin:0; }
+        
+        .hero-trust { margin-top:2rem; }
+        .hero-trust p { color:rgba(255,255,255,0.7); font-size:0.9rem; }
+        
+        .usecases-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
+        .usecase-card { background:white; border-radius:16px; padding:2rem; box-shadow:0 4px 15px rgba(0,0,0,0.05); border:2px solid var(--border); transition:all 0.3s; }
+        .usecase-card:hover { border-color:var(--gold); transform:translateY(-3px); box-shadow:0 8px 25px rgba(0,0,0,0.1); }
+        .usecase-icon { font-size:2.5rem; margin-bottom:1rem; }
+        .usecase-card h3 { font-family:'Playfair Display',serif; font-size:1.25rem; color:var(--primary); margin-bottom:0.75rem; }
+        .usecase-card p { color:var(--text); font-size:0.95rem; margin-bottom:1rem; line-height:1.6; }
+        .usecase-card ul { list-style:none; }
+        .usecase-card ul li { color:var(--muted); font-size:0.85rem; padding:0.25rem 0; }
+        
+        .faq-container { max-width:800px; margin:0 auto; }
+        .faq-item { background:white; border:2px solid var(--border); border-radius:12px; margin-bottom:1rem; overflow:hidden; }
+        .faq-item[open] { border-color:var(--gold); }
+        .faq-question { padding:1.25rem 1.5rem; cursor:pointer; font-weight:600; color:var(--primary); font-size:1rem; list-style:none; display:flex; justify-content:space-between; align-items:center; }
+        .faq-question::-webkit-details-marker { display:none; }
+        .faq-question::after { content:'▼'; font-size:0.75rem; color:var(--gold); transition:transform 0.3s; }
+        .faq-item[open] .faq-question::after { transform:rotate(180deg); }
+        .faq-answer { padding:0 1.5rem 1.25rem; color:var(--text); line-height:1.7; font-size:0.95rem; }
+        
+        .cta-section { background:linear-gradient(135deg,var(--primary),#16213e); padding:4rem 2rem; }
+        .cta-container { max-width:700px; margin:0 auto; text-align:center; }
+        .cta-container h2 { font-family:'Playfair Display',serif; font-size:2.25rem; color:white; margin-bottom:1rem; }
+        .cta-container p { color:rgba(255,255,255,0.8); font-size:1.1rem; margin-bottom:2rem; }
+        .btn-large { padding:1.25rem 2.5rem; font-size:1.1rem; }
+        .cta-guarantees { display:flex; justify-content:center; gap:2rem; margin-top:1.5rem; flex-wrap:wrap; }
+        .cta-guarantees span { color:rgba(255,255,255,0.7); font-size:0.9rem; }
+        
+        .comparison-grid { max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr auto 1fr; gap:2rem; }
+        .comparison-card { background:white; border-radius:20px; padding:2rem; border:2px solid var(--border); }
+        .comparison-card.modern { border-color:var(--gold); box-shadow:0 10px 40px rgba(201,162,39,0.15); }
+        .comparison-header { text-align:center; margin-bottom:1.5rem; }
+        .comparison-icon { font-size:2.5rem; margin-bottom:0.5rem; }
+        .comparison-title { font-size:1.25rem; color:var(--primary); }
+        .comparison-price { font-size:1.75rem; font-weight:700; }
+        .comparison-card:not(.modern) .comparison-price { color:var(--error); }
+        .comparison-card.modern .comparison-price { color:var(--success); }
+        .comparison-list { list-style:none; }
+        .comparison-list li { padding:0.6rem 0; border-bottom:1px solid var(--border); font-size:0.95rem; }
+        .vs-badge { background:var(--primary); color:white; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; align-self:center; }
+        
+        .steps-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; }
+        .step-card { text-align:center; padding:1.5rem; }
+        .step-number { width:50px; height:50px; margin:0 auto 1rem; background:linear-gradient(135deg,var(--gold),var(--gold-light)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.25rem; font-weight:700; color:white; }
+        .step-icon { font-size:2rem; margin-bottom:0.75rem; }
+        .step-title { font-size:1.1rem; color:var(--primary); margin-bottom:0.5rem; }
+        .step-desc { color:var(--muted); font-size:0.9rem; }
+        
+        .testimonials-grid { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
+        .testimonial-card { background:white; border-radius:16px; padding:1.5rem; box-shadow:0 4px 15px rgba(0,0,0,0.05); }
+        .testimonial-header { display:flex; align-items:center; gap:1rem; margin-bottom:1rem; }
+        .testimonial-avatar { width:50px; height:50px; background:linear-gradient(135deg,var(--gold),var(--gold-light)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; }
+        .testimonial-info h4 { color:var(--primary); font-size:1rem; }
+        .testimonial-info span { color:var(--muted); font-size:0.85rem; }
+        .testimonial-stars { color:var(--gold); font-size:0.9rem; }
+        .testimonial-text { color:var(--text); font-style:italic; margin-bottom:1rem; font-size:0.95rem; }
+        .testimonial-results { display:flex; gap:2rem; padding-top:1rem; border-top:1px solid var(--border); }
+        .testimonial-result { display:flex; align-items:center; gap:0.5rem; }
+        .testimonial-result-value { font-weight:700; color:var(--primary); }
+        .testimonial-result-label { font-size:0.75rem; color:var(--muted); }
+        
+        /* SINGLE PRICING CARD */
+        .single-pricing-container { max-width:500px; margin:0 auto; }
+        .single-pricing-card { background:white; border:3px solid var(--gold); border-radius:24px; padding:3rem; position:relative; box-shadow:0 20px 60px rgba(201,162,39,0.2); text-align:center; }
+        .single-pricing-badge { position:absolute; top:-15px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:white; padding:0.5rem 1.5rem; border-radius:25px; font-size:0.9rem; font-weight:700; }
+        .single-pricing-icon { font-size:4rem; margin-bottom:1rem; }
+        .single-pricing-title { font-family:'Playfair Display',serif; font-size:1.75rem; color:var(--primary); margin-bottom:0.5rem; }
+        .single-pricing-desc { color:var(--muted); margin-bottom:1.5rem; }
+        .single-pricing-price { font-size:4rem; font-weight:800; color:var(--primary); margin-bottom:0.5rem; }
+        .single-pricing-price span { font-size:1.5rem; color:var(--muted); }
+        .single-pricing-old { color:var(--error); text-decoration:line-through; font-size:1.25rem; margin-bottom:1.5rem; }
+        .single-pricing-features { list-style:none; text-align:left; margin-bottom:2rem; }
+        .single-pricing-features li { display:flex; align-items:center; gap:0.75rem; padding:0.75rem 0; font-size:1rem; border-bottom:1px solid var(--border); }
+        .single-pricing-features li:last-child { border-bottom:none; }
+        .single-pricing-features li::before { content:'✓'; color:var(--success); font-weight:bold; font-size:1.2rem; }
+        .single-pricing-cta { width:100%; padding:1.25rem; background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:white; border:none; border-radius:14px; font-size:1.15rem; font-weight:700; cursor:pointer; transition:all 0.3s; }
+        .single-pricing-cta:hover { transform:translateY(-3px); box-shadow:0 10px 30px rgba(201,162,39,0.4); }
+        
+        .payment-page { min-height:100vh; background:var(--bg); padding:6rem 2rem 4rem; }
+        .payment-container { max-width:450px; margin:0 auto; }
+        .payment-card { background:white; border-radius:20px; padding:2rem; box-shadow:0 4px 20px rgba(0,0,0,0.05); }
+        .payment-title { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--primary); text-align:center; margin-bottom:0.5rem; }
+        .payment-subtitle { color:var(--muted); text-align:center; margin-bottom:1.5rem; }
+        .payment-plan { background:var(--bg); border-radius:12px; padding:1.25rem; margin-bottom:1.5rem; text-align:center; }
+        .payment-plan-name { font-weight:600; color:var(--primary); font-size:1.1rem; }
+        .payment-plan-price { font-size:2rem; font-weight:700; color:var(--gold); }
+        .form-group { margin-bottom:1.25rem; }
+        .form-label { display:block; font-weight:600; color:var(--primary); margin-bottom:0.4rem; font-size:0.95rem; }
+        .form-input { width:100%; padding:0.9rem; border:2px solid var(--border); border-radius:10px; font-size:1rem; }
+        .form-input:focus { outline:none; border-color:var(--gold); }
+        .payment-btn { width:100%; padding:1.1rem; background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:white; border:none; border-radius:12px; font-size:1.05rem; font-weight:600; cursor:pointer; }
+        .payment-btn:disabled { opacity:0.7; cursor:not-allowed; }
+        .payment-error { background:rgba(220,38,38,0.1); color:var(--error); padding:0.75rem; border-radius:8px; margin-bottom:1rem; text-align:center; font-size:0.9rem; }
+        .payment-secure { display:flex; align-items:center; justify-content:center; gap:0.5rem; margin-top:1.25rem; color:var(--muted); font-size:0.85rem; }
+        
+        .app-container { max-width:1100px; margin:0 auto; padding:6rem 2rem 2rem; }
+        .app-header { text-align:center; margin-bottom:2rem; }
+        .app-header h1 { font-family:'Playfair Display',serif; font-size:2rem; color:var(--primary); margin-bottom:0.5rem; }
+        .app-subtitle { color:var(--muted); }
+        
+        .domaines-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; margin-bottom:2rem; }
+        .domaine-card { background:white; border:2px solid var(--border); border-radius:12px; padding:1.25rem; cursor:pointer; transition:all 0.3s; text-align:center; }
+        .domaine-card:hover { border-color:var(--gold); transform:translateY(-2px); }
+        .domaine-card.selected { border-color:var(--gold); background:rgba(201,162,39,0.05); }
+        .domaine-icon { font-size:2rem; margin-bottom:0.5rem; }
+        .domaine-nom { font-weight:600; color:var(--primary); }
+        
+        .categories-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:0.75rem; margin-bottom:2rem; }
+        .categorie-card { background:white; border:2px solid var(--border); border-radius:10px; padding:1rem; cursor:pointer; transition:all 0.3s; }
+        .categorie-card:hover { border-color:var(--gold); }
+        .categorie-card.selected { border-color:var(--gold); background:rgba(201,162,39,0.05); }
+        .categorie-nom { font-weight:600; font-size:0.95rem; color:var(--primary); }
+        .categorie-desc { font-size:0.8rem; color:var(--muted); }
+        
+        .questionnaire { background:white; border-radius:16px; padding:2rem; box-shadow:0 4px 15px rgba(0,0,0,0.05); }
+        .questionnaire h3 { font-family:'Playfair Display',serif; color:var(--primary); margin-bottom:1.5rem; }
+        .question-group { margin-bottom:1.25rem; }
+        .question-label { display:block; font-weight:600; color:var(--primary); margin-bottom:0.4rem; }
+        .question-label span { color:var(--error); }
+        .question-input { width:100%; padding:0.8rem; border:2px solid var(--border); border-radius:8px; font-size:1rem; resize:vertical; }
+        .question-input:focus { outline:none; border-color:var(--gold); }
+        .question-select { width:100%; padding:0.8rem; border:2px solid var(--border); border-radius:8px; font-size:1rem; background:white; }
+        .submit-btn { width:100%; padding:1rem; background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:white; border:none; border-radius:10px; font-size:1.05rem; font-weight:600; cursor:pointer; margin-top:1rem; }
+        .submit-btn:disabled { opacity:0.7; cursor:not-allowed; }
+        
+        .dossier-container { background:white; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,0.08); overflow:hidden; }
+        .dossier-header { background:linear-gradient(135deg,var(--primary),#16213e); color:white; padding:1.5rem 2rem; display:flex; justify-content:space-between; align-items:center; }
+        .dossier-header h2 { font-family:'Playfair Display',serif; }
+        .dossier-actions { display:flex; gap:0.75rem; }
+        .action-btn { padding:0.6rem 1.25rem; border-radius:8px; font-weight:600; cursor:pointer; border:none; transition:all 0.3s; }
+        .action-btn.primary { background:var(--gold); color:white; }
+        .action-btn.secondary { background:rgba(255,255,255,0.1); color:white; border:1px solid rgba(255,255,255,0.3); }
+        .dossier-content { padding:2rem; max-height:70vh; overflow-y:auto; white-space:pre-wrap; line-height:1.8; }
+        
+        .chat-toggle { position:fixed; bottom:2rem; right:2rem; width:60px; height:60px; background:linear-gradient(135deg,var(--gold),var(--gold-light)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.5rem; cursor:pointer; box-shadow:0 4px 20px rgba(201,162,39,0.4); border:none; z-index:1000; }
+        .chat-panel { position:fixed; bottom:6rem; right:2rem; width:380px; max-height:500px; background:white; border-radius:16px; box-shadow:0 10px 40px rgba(0,0,0,0.15); display:flex; flex-direction:column; z-index:1000; overflow:hidden; }
+        .chat-header { background:linear-gradient(135deg,var(--primary),#16213e); color:white; padding:1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; }
+        .chat-header h4 { font-family:'Playfair Display',serif; }
+        .chat-close { background:none; border:none; color:white; font-size:1.25rem; cursor:pointer; }
+        .chat-messages { flex:1; overflow-y:auto; padding:1rem; max-height:300px; }
+        .chat-message { margin-bottom:1rem; }
+        .chat-message.user { text-align:right; }
+        .chat-message.user .chat-bubble { background:var(--gold); color:white; }
+        .chat-message.assistant .chat-bubble { background:var(--bg); }
+        .chat-bubble { display:inline-block; padding:0.75rem 1rem; border-radius:12px; max-width:85%; text-align:left; font-size:0.95rem; }
+        .chat-input-container { padding:1rem; border-top:1px solid var(--border); display:flex; gap:0.5rem; }
+        .chat-input { flex:1; padding:0.75rem; border:2px solid var(--border); border-radius:10px; font-size:0.95rem; }
+        .chat-input:focus { outline:none; border-color:var(--gold); }
+        .chat-send { padding:0.75rem 1.25rem; background:var(--gold); color:white; border:none; border-radius:10px; cursor:pointer; font-weight:600; }
+        
+        .footer { background:var(--primary); color:white; padding:3rem 2rem; text-align:center; }
+        .footer-links { display:flex; justify-content:center; gap:2rem; margin-bottom:1.5rem; flex-wrap:wrap; }
+        .footer-link { color:rgba(255,255,255,0.7); text-decoration:none; font-size:0.9rem; cursor:pointer; transition:color 0.3s; }
+        .footer-link:hover { color:var(--gold); }
+        .footer-copy { color:rgba(255,255,255,0.5); font-size:0.85rem; }
+        
+        .loading-spinner { display:inline-block; width:20px; height:20px; border:3px solid rgba(255,255,255,0.3); border-radius:50%; border-top-color:white; animation:spin 1s linear infinite; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+        
+        @media (max-width:1024px) {
+          .comparison-grid { grid-template-columns:1fr; }
+          .vs-badge { display:none; }
+          .steps-grid { grid-template-columns:repeat(2,1fr); }
+          .testimonials-grid { grid-template-columns:1fr; }
+          .legal-stats-grid { grid-template-columns:repeat(2,1fr); }
+          .usecases-grid { grid-template-columns:1fr; }
+        }
+        @media (max-width:768px) {
+          .nav-links { display:none; }
+          .hero h1 { font-size:2rem; }
+          .hero-stats { gap:1.5rem; }
+          .section-title { font-size:1.75rem; }
+          .steps-grid { grid-template-columns:1fr; }
+          .chat-panel { width:calc(100% - 2rem); right:1rem; }
+          .legal-stats-grid { grid-template-columns:1fr; max-width:300px; margin:0 auto; }
+          .legal-stat-card { padding:1.25rem; }
+          .legal-stat-value { font-size:2rem; }
+          .cta-container h2 { font-size:1.75rem; }
+          .cta-guarantees { gap:1rem; }
+          .cta-guarantees span { font-size:0.8rem; }
+          .faq-question { font-size:0.9rem; padding:1rem; }
+          .faq-answer { padding:0 1rem 1rem; font-size:0.9rem; }
+          .single-pricing-card { padding:2rem; }
+          .single-pricing-price { font-size:3rem; }
+        }
+      `}</style>
 
-      {/* LEGAL PAGE */}
-      {currentView === 'legal' && (
-        <LegalPage onBack={() => setCurrentView('landing')} scrollToSection={legalSection} />
-      )}
+      {/* NAVIGATION */}
+      <nav className="nav">
+        <div className="nav-logo" onClick={() => setCurrentView('landing')} style={{cursor:'pointer'}}>
+          <span>⚖️</span> Mon<span>Dossier</span>Juridique
+        </div>
+        {currentView === 'landing' && (
+          <div className="nav-links">
+            <span className="nav-link" onClick={() => scrollTo('how')}>Comment ça marche</span>
+            <span className="nav-link" onClick={() => scrollTo('usecases')}>Cas d'usage</span>
+            <span className="nav-link" onClick={() => scrollTo('faq')}>FAQ</span>
+            <span className="nav-link" onClick={() => scrollTo('pricing')}>Tarif</span>
+            <button className="nav-cta" onClick={() => scrollTo('pricing')}>Commencer</button>
+          </div>
+        )}
+        {currentView === 'app' && (
+          <div className="nav-links">
+            <span className="nav-link" onClick={() => setCurrentView('landing')}>Accueil</span>
+          </div>
+        )}
+      </nav>
 
       {/* LANDING PAGE */}
       {currentView === 'landing' && (
@@ -947,7 +901,7 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
               <p className="hero-subtitle">
                 <strong>Alternative économique à l'avocat</strong> pour licenciement abusif, divorce, succession, prud'hommes. 
                 Notre IA analyse 93 000 articles de loi et 2,4 millions de jurisprudences françaises. 
-                <strong>Économisez jusqu'à 2 000€</strong> en honoraires.
+                <strong> Économisez jusqu'à 2 000€</strong> en honoraires.
               </p>
               <div className="hero-stats">
                 <div><div className="hero-stat-value">{counters.savings}€</div><div className="hero-stat-label">Économie moyenne vs avocat</div></div>
@@ -955,7 +909,7 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
                 <div><div className="hero-stat-value">{counters.satisfaction}%</div><div className="hero-stat-label">Clients satisfaits</div></div>
               </div>
               <div className="hero-buttons">
-                <button className="btn btn-primary" onClick={() => scrollTo('pricing')}>Créer mon dossier juridique →</button>
+                <button className="btn btn-primary" onClick={() => scrollTo('pricing')}>Créer mon dossier — 49€ →</button>
                 <button className="btn btn-secondary" onClick={() => scrollTo('how')}>Comment ça marche ?</button>
               </div>
               <div className="hero-trust">
@@ -1024,7 +978,7 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
                 <div className="comparison-header">
                   <div className="comparison-icon">⚡</div>
                   <h3 className="comparison-title">MonDossierJuridique</h3>
-                  <div className="comparison-price">29€ - 99€</div>
+                  <div className="comparison-price">49€</div>
                 </div>
                 <ul className="comparison-list">
                   <li>✓ Disponible 24h/24</li>
@@ -1084,31 +1038,35 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
             </div>
           </section>
 
+          {/* SINGLE PRICING SECTION */}
           <section className="section section-white" id="pricing">
             <div className="section-header">
-              <span className="section-badge">💎 Tarifs</span>
-              <h2 className="section-title">Choisissez votre formule</h2>
+              <span className="section-badge">💎 Tarif unique</span>
+              <h2 className="section-title">Un prix simple, tout inclus</h2>
+              <p className="section-subtitle">Pas d'abonnement, pas de frais cachés</p>
             </div>
-            <div className="pricing-grid">
-              {Object.entries(PRICING).map(([k,p]) => (
-                <div key={k} className={`pricing-card ${p.popular?'popular':''}`}>
-                  {p.popular && <div className="pricing-popular-badge">⭐ Populaire</div>}
-                  <div className="pricing-header">
-                    <h3 className="pricing-name">{p.name}</h3>
-                    <p className="pricing-desc">{p.description}</p>
-                    <div className="pricing-amount">{p.price}€</div>
-                  </div>
-                  <ul className="pricing-features">
-                    <li>{p.dossiers} dossier{p.dossiers>1?'s':''}</li>
-                    <li>Analyse IA</li>
-                    <li>Jurisprudence</li>
-                    <li>Chat assistant</li>
-                  </ul>
-                  <button className="pricing-cta" onClick={() => {setSelectedPlan(k);setCurrentView('payment');}}>
-                    Choisir
-                  </button>
-                </div>
-              ))}
+            <div className="single-pricing-container">
+              <div className="single-pricing-card">
+                <div className="single-pricing-badge">⭐ OFFRE UNIQUE</div>
+                <div className="single-pricing-icon">⚖️</div>
+                <h3 className="single-pricing-title">Dossier Juridique Complet</h3>
+                <p className="single-pricing-desc">Tout ce dont vous avez besoin pour défendre vos droits</p>
+                <div className="single-pricing-old">Valeur avocat : 1 500€ - 3 000€</div>
+                <div className="single-pricing-price">49€ <span>TTC</span></div>
+                <ul className="single-pricing-features">
+                  <li>Dossier complet de 40-60 pages</li>
+                  <li>Analyse juridique personnalisée</li>
+                  <li>Textes de loi applicables</li>
+                  <li>Jurisprudence récente (10+ décisions)</li>
+                  <li>Calcul de vos indemnités</li>
+                  <li>Modèles de documents (mise en demeure...)</li>
+                  <li>Stratégie procédurale</li>
+                  <li>Chat assistant illimité</li>
+                </ul>
+                <button className="single-pricing-cta" onClick={() => setCurrentView('payment')}>
+                  Créer mon dossier — 49€ →
+                </button>
+              </div>
             </div>
             <div style={{maxWidth:'500px',margin:'2rem auto 0',textAlign:'center',padding:'1.5rem',background:'rgba(5,150,105,0.05)',border:'2px solid rgba(5,150,105,0.2)',borderRadius:'12px'}}>
               <div style={{fontSize:'2rem',marginBottom:'0.5rem'}}>🛡️</div>
@@ -1190,7 +1148,7 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
               <h2>Prêt à défendre vos droits ?</h2>
               <p>Rejoignez les 12 000+ Français qui ont économisé en moyenne 1 847€ grâce à MonDossierJuridique</p>
               <button className="btn btn-primary btn-large" onClick={() => scrollTo('pricing')}>
-                Générer mon dossier juridique dès 29€ →
+                Générer mon dossier juridique — 49€ →
               </button>
               <div className="cta-guarantees">
                 <span>🔒 Paiement sécurisé</span>
@@ -1201,161 +1159,163 @@ Utilise web_search pour la jurisprudence récente. Sois EXHAUSTIF et PROFESSIONN
           </section>
 
           <footer className="footer">
-            <div className="footer-inner">
-              <h3>⚖️ MonDossierJuridique.fr</h3>
-              <p>Votre aide juridique en ligne</p>
-              <p style={{marginTop:'0.75rem',fontSize:'0.75rem'}}>Ce service ne remplace pas un avocat.</p>
-              <div className="footer-links">
-                <span className="footer-link" onClick={() => goToLegal('mentions')}>Mentions légales</span>
-                <span className="footer-link" onClick={() => goToLegal('confidentialite')}>Politique de confidentialité</span>
-                <span className="footer-link" onClick={() => goToLegal('cgv')}>CGV</span>
-                <span className="footer-link" onClick={() => goToLegal('cookies')}>Cookies</span>
-              </div>
-              <p style={{marginTop:'1rem',fontSize:'0.75rem',color:'rgba(255,255,255,0.4)'}}>© 2024 MonDossierJuridique.fr</p>
+            <div className="footer-links">
+              <span className="footer-link" onClick={() => {setLegalSection('mentions');setCurrentView('legal');}}>Mentions légales</span>
+              <span className="footer-link" onClick={() => {setLegalSection('confidentialite');setCurrentView('legal');}}>Politique de confidentialité</span>
+              <span className="footer-link" onClick={() => {setLegalSection('cgv');setCurrentView('legal');}}>CGV</span>
+              <span className="footer-link" onClick={() => {setLegalSection('cookies');setCurrentView('legal');}}>Cookies</span>
             </div>
+            <p className="footer-copy">© 2024 MonDossierJuridique.fr</p>
           </footer>
         </>
       )}
 
-      {/* PAYMENT PAGE */}
+      {/* PAGE DE PAIEMENT */}
       {currentView === 'payment' && (
         <div className="payment-page">
           <div className="payment-container">
+            <button onClick={() => setCurrentView('landing')} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginBottom:'1rem',fontSize:'0.95rem'}}>← Retour</button>
             <div className="payment-card">
-              <h2 className="payment-title">Finalisez votre commande</h2>
-              <p className="payment-subtitle">Paiement sécurisé par Stripe</p>
+              <h1 className="payment-title">Finaliser ma commande</h1>
+              <p className="payment-subtitle">Accès immédiat après paiement</p>
               
               <div className="payment-plan">
-                <div className="payment-plan-name">Formule {PRICING[selectedPlan]?.name}</div>
-                <div className="payment-plan-price">{PRICING[selectedPlan]?.price}€</div>
+                <div className="payment-plan-name">Dossier Juridique Complet</div>
+                <div className="payment-plan-price">49€</div>
               </div>
               
               {paymentError && <div className="payment-error">{paymentError}</div>}
               
               <div className="form-group">
                 <label className="form-label">Votre email</label>
-                <input type="email" className="form-input" placeholder="votre@email.com" value={userEmail} onChange={e=>setUserEmail(e.target.value)} />
+                <input 
+                  type="email" 
+                  className="form-input"
+                  placeholder="exemple@email.com"
+                  value={userEmail}
+                  onChange={(e) => setUserEmail(e.target.value)}
+                />
               </div>
               
               <button className="payment-btn" onClick={handlePayment} disabled={paymentLoading}>
-                {paymentLoading ? '⏳ Redirection...' : `🔒 Payer ${PRICING[selectedPlan]?.price}€`}
+                {paymentLoading ? <span className="loading-spinner"></span> : 'Payer 49€ par carte'}
               </button>
               
-              <div className="payment-secure">🔒 Paiement sécurisé Stripe</div>
-              
-              <button onClick={()=>setCurrentView('landing')} style={{marginTop:'1rem',background:'none',border:'none',color:'#718096',cursor:'pointer',width:'100%'}}>
-                ← Retour
-              </button>
+              <div className="payment-secure">
+                🔒 Paiement sécurisé par Stripe
+              </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* APP */}
+      {/* APPLICATION */}
       {currentView === 'app' && (
-        <>
-          <div className="app-container">
-            <div className="app-header">
-              <h1>⚖️ Créez votre dossier</h1>
+        <div className="app-container">
+          <div className="app-header">
+            <h1>Créez votre dossier juridique</h1>
+            <p className="app-subtitle">Sélectionnez le domaine de votre litige</p>
+          </div>
+          
+          {!selectedDomaine && (
+            <div className="domaines-grid">
+              {Object.entries(DOMAINES).map(([k,d]) => (
+                <div key={k} className="domaine-card" onClick={() => setSelectedDomaine(k)}>
+                  <div className="domaine-icon">{d.icone}</div>
+                  <div className="domaine-nom">{d.nom}</div>
+                </div>
+              ))}
             </div>
-            
-            {!selectedDomaine ? (
-              <div className="domains-grid">
-                {Object.entries(DOMAINES).map(([k,d]) => (
-                  <div key={k} className="domain-card" onClick={()=>setSelectedDomaine(k)}>
-                    <div className="domain-icon">{d.icone}</div>
-                    <div className="domain-name">{d.nom}</div>
+          )}
+          
+          {selectedDomaine && !selectedCategorie && DOMAINES[selectedDomaine]?.categories?.length > 0 && (
+            <>
+              <button onClick={() => setSelectedDomaine(null)} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginBottom:'1rem'}}>← Retour</button>
+              <h2 style={{marginBottom:'1rem',color:'var(--primary)'}}>{DOMAINES[selectedDomaine].nom}</h2>
+              <div className="categories-grid">
+                {DOMAINES[selectedDomaine].categories.map(c => (
+                  <div key={c.id} className="categorie-card" onClick={() => setSelectedCategorie(c.id)}>
+                    <div className="categorie-nom">{c.nom}</div>
+                    <div className="categorie-desc">{c.desc}</div>
                   </div>
                 ))}
               </div>
-            ) : !selectedCategorie ? (
-              <>
-                <button className="back-btn" onClick={()=>setSelectedDomaine(null)}>← Retour</button>
-                <h2 style={{marginBottom:'1rem'}}>{DOMAINES[selectedDomaine].icone} {DOMAINES[selectedDomaine].nom}</h2>
-                <div className="categories-grid">
-                  {(DOMAINES[selectedDomaine].categories.length > 0 ? DOMAINES[selectedDomaine].categories : [{id:'autre_general',nom:'⊕ Décrire mon litige',desc:'Expliquez votre situation',isAutre:true}]).map(c => (
-                    <div key={c.id} className={`category-card ${c.isAutre?'autre':''}`} onClick={()=>setSelectedCategorie(c.id)}>
-                      <div className="category-name">{c.nom}</div>
-                      <div className="category-desc">{c.desc}</div>
-                    </div>
-                  ))}
-                </div>
-              </>
-            ) : !dossierGenere ? (
-              <>
-                <button className="back-btn" onClick={()=>setSelectedCategorie(null)}>← Retour</button>
-                <div className="questionnaire">
-                  <h2>📝 Questionnaire</h2>
-                  {QUESTIONNAIRE_DEFAULT.map(q => (
-                    <div key={q.id} className="form-group">
-                      <label className="form-label">{q.label} {q.required && <span style={{color:'#dc2626'}}>*</span>}</label>
-                      {q.type === 'textarea' ? (
-                        <textarea className="form-textarea" placeholder={q.placeholder} value={formData[q.id]||''} onChange={e=>setFormData({...formData,[q.id]:e.target.value})} />
-                      ) : q.type === 'select' ? (
-                        <select className="form-select" value={formData[q.id]||''} onChange={e=>setFormData({...formData,[q.id]:e.target.value})}>
-                          <option value="">Sélectionnez...</option>
-                          {q.options.map(o => <option key={o} value={o}>{o}</option>)}
-                        </select>
-                      ) : (
-                        <input type={q.type} className="form-input" placeholder={q.placeholder} value={formData[q.id]||''} onChange={e=>setFormData({...formData,[q.id]:e.target.value})} />
-                      )}
-                    </div>
-                  ))}
-                  <button className="submit-btn" onClick={generateDossier} disabled={loading}>
-                    {loading ? '⏳ Génération... (2-3 min)' : '🚀 Générer mon dossier'}
-                  </button>
-                  {loading && <div className="loading-spinner"></div>}
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="dossier-container">
-                  <div className="dossier-header">
-                    <h2>✅ Dossier prêt !</h2>
-                    <button className="download-btn" onClick={downloadDossier}>📥 Télécharger</button>
+            </>
+          )}
+          
+          {selectedDomaine && (selectedCategorie || DOMAINES[selectedDomaine]?.categories?.length === 0) && !dossierGenere && (
+            <>
+              <button onClick={() => {setSelectedCategorie(null);if(!DOMAINES[selectedDomaine]?.categories?.length)setSelectedDomaine(null);}} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginBottom:'1rem'}}>← Retour</button>
+              <div className="questionnaire">
+                <h3>📝 Décrivez votre situation</h3>
+                {QUESTIONNAIRE_DEFAULT.map(q => (
+                  <div key={q.id} className="question-group">
+                    <label className="question-label">{q.label} {q.required && <span>*</span>}</label>
+                    {q.type === 'textarea' && (
+                      <textarea className="question-input" rows="3" placeholder={q.placeholder} value={formData[q.id]||''} onChange={e => setFormData({...formData,[q.id]:e.target.value})} />
+                    )}
+                    {q.type === 'date' && (
+                      <input type="date" className="question-input" value={formData[q.id]||''} onChange={e => setFormData({...formData,[q.id]:e.target.value})} />
+                    )}
+                    {q.type === 'select' && (
+                      <select className="question-select" value={formData[q.id]||''} onChange={e => setFormData({...formData,[q.id]:e.target.value})}>
+                        <option value="">Sélectionnez</option>
+                        {q.options.map(o => <option key={o} value={o}>{o}</option>)}
+                      </select>
+                    )}
                   </div>
-                  <div className="dossier-content">{dossierGenere}</div>
-                </div>
-                <button onClick={()=>{setSelectedDomaine(null);setSelectedCategorie(null);setDossierGenere(null);setFormData({});}} style={{marginTop:'1.5rem',padding:'0.9rem 1.5rem',background:'var(--gold)',color:'white',border:'none',borderRadius:'8px',cursor:'pointer'}}>
-                  ➕ Nouveau dossier
+                ))}
+                <button className="submit-btn" onClick={handleSubmitDossier} disabled={loading}>
+                  {loading ? <><span className="loading-spinner"></span> Génération en cours...</> : '🚀 Générer mon dossier'}
                 </button>
-              </>
-            )}
-
-            {dossierGenere && (
-              <>
-                <button className="chat-button" onClick={()=>setShowChat(!showChat)}>{showChat?'✕':'💬'}</button>
-                {showChat && (
-                  <div className="chat-panel">
-                    <div className="chat-header">
-                      <span>🤖 Assistant</span>
-                      <button onClick={()=>setShowChat(false)} style={{background:'none',border:'none',color:'white',cursor:'pointer'}}>✕</button>
-                    </div>
-                    <div className="chat-messages">
-                      {chatMessages.map((m,i) => <div key={i} className={`chat-message ${m.role}`}>{m.content}</div>)}
-                      {chatLoading && <div style={{textAlign:'center',color:'#718096'}}>⏳</div>}
-                    </div>
-                    <div className="chat-input-container">
-                      <input className="chat-input" placeholder="Votre question..." value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyPress={e=>e.key==='Enter'&&sendChat()} />
-                      <button className="chat-send" onClick={sendChat}>→</button>
-                    </div>
+              </div>
+            </>
+          )}
+          
+          {dossierGenere && (
+            <>
+              <button onClick={() => {setDossierGenere(null);setFormData({});}} style={{background:'none',border:'none',color:'var(--gold)',cursor:'pointer',marginBottom:'1rem'}}>← Nouveau dossier</button>
+              <div className="dossier-container">
+                <div className="dossier-header">
+                  <h2>📋 Votre Dossier Juridique</h2>
+                  <div className="dossier-actions">
+                    <button className="action-btn primary" onClick={downloadPDF}>📥 Télécharger</button>
+                    <button className="action-btn secondary" onClick={() => navigator.clipboard.writeText(dossierGenere)}>📋 Copier</button>
+                  </div>
+                </div>
+                <div className="dossier-content">{dossierGenere}</div>
+              </div>
+            </>
+          )}
+          
+          <button className="chat-toggle" onClick={() => setShowChat(!showChat)}>💬</button>
+          
+          {showChat && (
+            <div className="chat-panel">
+              <div className="chat-header">
+                <h4>Assistant juridique</h4>
+                <button className="chat-close" onClick={() => setShowChat(false)}>×</button>
+              </div>
+              <div className="chat-messages">
+                {chatMessages.length === 0 && (
+                  <div className="chat-message assistant">
+                    <div className="chat-bubble">Bonjour ! Je suis votre assistant juridique. Posez-moi vos questions.</div>
                   </div>
                 )}
-              </>
-            )}
-          </div>
-          <footer className="footer">
-            <div className="footer-inner">
-              <h3>⚖️ MonDossierJuridique.fr</h3>
-              <p>Ce service ne remplace pas un avocat.</p>
-              <div className="footer-links">
-                <span className="footer-link" onClick={() => goToLegal('mentions')}>Mentions légales</span>
-                <span className="footer-link" onClick={() => goToLegal('cgv')}>CGV</span>
-                <span className="footer-link" onClick={() => goToLegal('confidentialite')}>Confidentialité</span>
+                {chatMessages.map((m,i) => (
+                  <div key={i} className={`chat-message ${m.role}`}>
+                    <div className="chat-bubble">{m.content}</div>
+                  </div>
+                ))}
+                {chatLoading && <div className="chat-message assistant"><div className="chat-bubble">...</div></div>}
+              </div>
+              <div className="chat-input-container">
+                <input className="chat-input" value={chatInput} onChange={e => setChatInput(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleChat()} placeholder="Votre question..." />
+                <button className="chat-send" onClick={handleChat}>→</button>
               </div>
             </div>
-          </footer>
-        </>
+          )}
+        </div>
       )}
     </>
   );
