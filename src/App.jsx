@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 // ════════════════════════════════════════════════════════════════════════════════════════
 
 // PRIX UNIQUE
+// eslint-disable-next-line
 const SINGLE_PRICE = { price: 49, name: 'Dossier Juridique', dossiers: 1, description: '1 dossier juridique complet' };
 
 const DOMAINES = {
