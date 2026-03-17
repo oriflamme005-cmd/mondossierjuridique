@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 
 // PRIX UNIQUE
 // eslint-disable-next-line
-const SINGLE_PRICE = { price: 49, name: 'Dossier Juridique', dossiers: 1, description: '1 dossier juridique complet' };
+const SINGLE_PRICE = { price: 149, name: 'Dossier Juridique', dossiers: 1, description: '1 dossier juridique complet' };
 
 const DOMAINES = {
   travail: {
@@ -75,11 +75,11 @@ const TESTIMONIALS = [
 const FAQ_DATA = [
   {
     question: "Comment contester un licenciement abusif sans avocat ?",
-    answer: "MonDossierJuridique génère un dossier complet pour contester votre licenciement abusif. Notre IA analyse votre situation selon le Code du travail, recherche la jurisprudence récente de la Cour de cassation, calcule vos indemnités (indemnité de licenciement, préavis, dommages-intérêts), et génère une mise en demeure personnalisée. Vous pouvez vous présenter aux prud'hommes avec un dossier professionnel pour seulement 49€."
+    answer: "MonDossierJuridique génère un dossier complet pour contester votre licenciement abusif. Notre IA analyse votre situation selon le Code du travail, recherche la jurisprudence récente de la Cour de cassation, calcule vos indemnités (indemnité de licenciement, préavis, dommages-intérêts), et génère une mise en demeure personnalisée. Vous pouvez vous présenter aux prud'hommes avec un dossier professionnel pour seulement 149€."
   },
   {
     question: "Combien coûte un avocat en France en 2024 ?",
-    answer: "Un avocat facture en moyenne 150€ à 500€ de l'heure. Pour un dossier de licenciement, comptez 1 500€ à 3 000€. Pour un divorce, 2 000€ à 5 000€. MonDossierJuridique propose une alternative à 49€ : vous obtenez un dossier juridique complet avec textes de loi, jurisprudence et stratégie personnalisée."
+    answer: "Un avocat facture en moyenne 150€ à 500€ de l'heure. Pour un dossier de licenciement, comptez 1 500€ à 3 000€. Pour un divorce, 2 000€ à 5 000€. MonDossierJuridique propose une alternative à 149€ : vous obtenez un dossier juridique complet avec textes de loi, jurisprudence et stratégie personnalisée."
   },
   {
     question: "Peut-on aller aux prud'hommes sans avocat ?",
