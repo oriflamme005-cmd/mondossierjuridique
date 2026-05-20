@@ -240,7 +240,33 @@ module.exports = async (req, res) => {
       const sessionId = session.id;
       const createdAt = session.created;
 
-      console.log('✅ Paiement reçu');
+      // ─────────────────────────────────────────────────────────────────────
+      // FILTRE : ne traiter QUE les paiements MonDossierJuridique.
+      // Le compte Stripe Illumitrade héberge aussi les ventes ILT Oracle
+      // (au même prix de 99€) ; sans ce filtre, ce webhook enverrait des
+      // emails "MonDossierJuridique" aux clients ILT Oracle.
+      //
+      // Critère unique et strict : metadata.product === 'dossier_juridique_complet'
+      // Cette metadata est définie dans api/create-checkout.js lors de la
+      // création de la session Stripe MonDossierJuridique.
+      //
+      // ⚠️  Les anciennes sessions (avant déploiement v3) ne portent pas
+      //     cette metadata ; elles seront donc ignorées par ce filtre.
+      //     Pour ces clients, gestion manuelle via Zimbra.
+      // ─────────────────────────────────────────────────────────────────────
+      const productMeta = session.metadata?.product || '';
+      const isMonDossierJuridique = productMeta === 'dossier_juridique_complet';
+
+      if (!isMonDossierJuridique) {
+        console.log('⏭️  Webhook ignoré (paiement non-MonDossierJuridique)');
+        console.log(`   Email   : ${customerEmail}`);
+        console.log(`   Montant : ${(amount / 100).toFixed(2)} €`);
+        console.log(`   Produit : ${productMeta || '(metadata absente)'}`);
+        console.log(`   Session : ${sessionId}`);
+        break; // on répond 200 mais on n'envoie aucun email
+      }
+
+      console.log('✅ Paiement MonDossierJuridique reçu');
       console.log(`   Email   : ${customerEmail}`);
       console.log(`   Montant : ${(amount / 100).toFixed(2)} €`);
       console.log(`   Session : ${sessionId}`);
