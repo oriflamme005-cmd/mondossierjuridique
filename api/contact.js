@@ -1,6 +1,6 @@
 // api/contact.js
 // Endpoint pour le formulaire de contact
-// Envoie les messages à contact@mondossierjuridique.fr
+// Envoie les messages à l'administrateur via Brevo
 
 export default async function handler(req, res) {
   // CORS headers
@@ -29,75 +29,68 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Email invalide' });
   }
 
+  // Construction du contenu HTML
+  const htmlContent = `
+    <h2>Nouveau message de contact</h2>
+    <p><strong>Nom :</strong> ${name}</p>
+    <p><strong>Email :</strong> ${email}</p>
+    <p><strong>Sujet :</strong> ${subject || 'Non spécifié'}</p>
+    <hr>
+    <h3>Message :</h3>
+    <p>${message.replace(/\n/g, '<br>')}</p>
+    <hr>
+    <p style="color: #666; font-size: 12px;">
+      Ce message a été envoyé depuis le formulaire de contact de MonDossierJuridique.fr
+    </p>
+  `;
+
+  // Destinataires : la (ou les) adresse(s) admin
+  // Par défaut, on envoie aux deux adresses si ADMIN_EMAIL n'est pas défini
+  const adminEmailsRaw = process.env.ADMIN_EMAIL || 'contact@mondossierjuridique.fr,illumitrade.contact@gmail.com';
+  const adminEmails = adminEmailsRaw.split(',').map(e => e.trim()).filter(Boolean);
+  const recipients = adminEmails.map(em => ({ email: em }));
+
   try {
-    // Option 1: Using Resend (if RESEND_API_KEY is set)
-    if (process.env.RESEND_API_KEY) {
-      const response = await fetch('https://api.resend.com/emails', {
+    if (process.env.BREVO_API_KEY) {
+      const response = await fetch('https://api.brevo.com/v3/smtp/email', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-          'Content-Type': 'application/json'
+          'api-key': process.env.BREVO_API_KEY,
+          'Content-Type': 'application/json',
+          'accept': 'application/json'
         },
         body: JSON.stringify({
-          from: 'MonDossierJuridique <noreply@mondossierjuridique.fr>',
-          to: 'contact@mondossierjuridique.fr',
+          sender: {
+            email: 'noreply@mondossierjuridique.fr',
+            name: 'MonDossierJuridique - Contact'
+          },
+          to: recipients,
+          replyTo: { email },
           subject: `[Contact] ${subject || 'Nouveau message'} - ${name}`,
-          html: `
-            <h2>Nouveau message de contact</h2>
-            <p><strong>Nom :</strong> ${name}</p>
-            <p><strong>Email :</strong> ${email}</p>
-            <p><strong>Sujet :</strong> ${subject || 'Non spécifié'}</p>
-            <hr>
-            <h3>Message :</h3>
-            <p>${message.replace(/\n/g, '<br>')}</p>
-            <hr>
-            <p style="color: #666; font-size: 12px;">
-              Ce message a été envoyé depuis le formulaire de contact de MonDossierJuridique.fr
-            </p>
-          `,
-          reply_to: email
+          htmlContent
         })
       });
 
       if (response.ok) {
         return res.status(200).json({ success: true, message: 'Message envoyé avec succès' });
       }
+
+      const errorText = await response.text();
+      console.error('Erreur Brevo (contact):', response.status, errorText);
+    } else {
+      console.warn('BREVO_API_KEY non configurée');
     }
 
-    // Option 2: Using Formspree (free, no API key needed)
-    // Formspree form ID to be created at formspree.io
-    const formspreeEndpoint = 'https://formspree.io/f/myzknwvl'; // Replace with your Formspree ID
-    
-    const formspreeResponse = await fetch(formspreeEndpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        subject: subject || 'Contact depuis le site',
-        message,
-        _replyto: email,
-        _subject: `[MonDossierJuridique] Message de ${name}`
-      })
-    });
-
-    if (formspreeResponse.ok) {
-      return res.status(200).json({ success: true, message: 'Message envoyé avec succès' });
-    }
-
-    // If all else fails, return mailto link
-    return res.status(200).json({ 
-      success: true, 
+    // Fallback : si Brevo n'est pas configuré ou a échoué, on renvoie un mailto
+    return res.status(200).json({
+      success: true,
       fallback: true,
       mailto: `mailto:contact@mondossierjuridique.fr?subject=${encodeURIComponent(subject || 'Contact')}&body=${encodeURIComponent(`Nom: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`
     });
 
   } catch (error) {
     console.error('Contact form error:', error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       error: 'Erreur lors de l\'envoi du message',
       mailto: `mailto:contact@mondossierjuridique.fr?subject=${encodeURIComponent(subject || 'Contact')}&body=${encodeURIComponent(`Nom: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`
     });
