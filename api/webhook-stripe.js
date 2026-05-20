@@ -1,15 +1,19 @@
 // api/webhook-stripe.js
 // ─────────────────────────────────────────────────────────────────────────────
-// Webhook Stripe : reçoit les confirmations de paiement et :
-//  1. Envoie un email de NOTIFICATION à l'administrateur (Ori)
-//  2. Envoie un email de CONFIRMATION au client
+// Webhook Stripe pour MonDossierJuridique.fr
+//
+// À chaque paiement réussi :
+//   1. Envoie un email de NOTIFICATION à l'administrateur (à plusieurs adresses)
+//   2. Envoie un email de CONFIRMATION au client
+//
+// Service d'envoi : Brevo (ex-Sendinblue)
 //
 // Variables d'environnement requises :
 //   - STRIPE_SECRET_KEY        : clé secrète Stripe
-//   - STRIPE_WEBHOOK_SECRET    : secret du webhook (généré dans Stripe Dashboard)
-//   - RESEND_API_KEY           : clé API Resend (pour envoi d'emails)
-//   - ADMIN_EMAIL              : email où recevoir les notifications de paiement
-//                                (défaut : contact@mondossierjuridique.fr)
+//   - STRIPE_WEBHOOK_SECRET    : secret du webhook (Stripe Dashboard)
+//   - BREVO_API_KEY            : clé API Brevo (xkeysib-...)
+//   - ADMIN_EMAIL              : email(s) admin séparés par virgule
+//     Exemple : "contact@mondossierjuridique.fr,illumitrade.contact@gmail.com"
 // ─────────────────────────────────────────────────────────────────────────────
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -31,45 +35,69 @@ async function buffer(readable) {
 }
 
 /**
- * Envoie un email via Resend.
- * Renvoie true si succès, false sinon.
+ * Envoie un email via l'API Brevo.
+ * @param {string|string[]} to - Email(s) destinataire(s)
+ * @param {string} subject - Sujet
+ * @param {string} html - Contenu HTML
+ * @param {string} [replyTo] - Email de réponse (optionnel)
+ * @returns {Promise<boolean>} true si succès
  */
 async function sendEmail({ to, subject, html, replyTo }) {
-  if (!process.env.RESEND_API_KEY) {
-    console.warn('RESEND_API_KEY non configurée — email non envoyé');
+  if (!process.env.BREVO_API_KEY) {
+    console.warn('BREVO_API_KEY non configurée — email non envoyé');
     return false;
   }
 
   try {
-    const response = await fetch('https://api.resend.com/emails', {
+    // Brevo attend un tableau d'objets { email }
+    const recipients = (Array.isArray(to) ? to : [to])
+      .map(email => email.trim())
+      .filter(Boolean)
+      .map(email => ({ email }));
+
+    if (recipients.length === 0) {
+      console.warn('Aucun destinataire valide');
+      return false;
+    }
+
+    const payload = {
+      sender: {
+        email: 'noreply@mondossierjuridique.fr',
+        name: 'MonDossierJuridique'
+      },
+      to: recipients,
+      subject,
+      htmlContent: html
+    };
+
+    if (replyTo) {
+      payload.replyTo = { email: replyTo };
+    }
+
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json'
+        'api-key': process.env.BREVO_API_KEY,
+        'Content-Type': 'application/json',
+        'accept': 'application/json'
       },
-      body: JSON.stringify({
-        from: 'MonDossierJuridique <noreply@mondossierjuridique.fr>',
-        to: Array.isArray(to) ? to : [to],
-        subject,
-        html,
-        ...(replyTo ? { reply_to: replyTo } : {})
-      })
+      body: JSON.stringify(payload)
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Erreur Resend:', response.status, errorText);
+      console.error('Erreur Brevo:', response.status, errorText);
       return false;
     }
     return true;
   } catch (err) {
-    console.error('Exception Resend:', err);
+    console.error('Exception Brevo:', err);
     return false;
   }
 }
 
 /**
- * Email de notification à l'administrateur (Ori)
+ * Email de notification à l'administrateur
  */
 function buildAdminEmail({ customerEmail, amount, sessionId, createdAt }) {
   const dateFormatted = new Date(createdAt * 1000).toLocaleString('fr-FR', {
@@ -152,7 +180,7 @@ function buildClientEmail({ customerEmail }) {
             <div style="margin: 24px 0; padding: 20px; background: #ecfdf5; border-left: 4px solid #059669; border-radius: 6px;">
               <h3 style="margin: 0 0 12px; color: #065f46; font-size: 16px;">📋 Prochaines étapes</h3>
               <ol style="margin: 0; padding-left: 20px; color: #047857; line-height: 1.8;">
-                <li>Retournez sur <a href="https://mondossierjuridique.fr" style="color: #059669; font-weight: 600;">mondossierjuridique.fr</a></li>
+                <li>Retournez sur <a href="https://www.mondossierjuridique.fr" style="color: #059669; font-weight: 600;">mondossierjuridique.fr</a></li>
                 <li>Choisissez le domaine de votre litige</li>
                 <li>Remplissez le questionnaire détaillé</li>
                 <li>Cliquez sur <strong>"Générer mon dossier"</strong></li>
@@ -217,16 +245,20 @@ module.exports = async (req, res) => {
       console.log(`   Montant : ${(amount / 100).toFixed(2)} €`);
       console.log(`   Session : ${sessionId}`);
 
-      // 1. Email de notification à l'administrateur
-      const adminEmail = process.env.ADMIN_EMAIL || 'contact@mondossierjuridique.fr';
+      // 1. Email de notification aux administrateurs
+      //    ADMIN_EMAIL peut contenir plusieurs adresses séparées par virgule
+      //    Ex: "contact@mondossierjuridique.fr,illumitrade.contact@gmail.com"
+      const adminEmailsRaw = process.env.ADMIN_EMAIL || 'illumitrade.contact@gmail.com';
+      const adminEmails = adminEmailsRaw.split(',').map(e => e.trim()).filter(Boolean);
+
       const adminTpl = buildAdminEmail({ customerEmail, amount, sessionId, createdAt });
       const adminOk = await sendEmail({
-        to: adminEmail,
+        to: adminEmails,
         subject: adminTpl.subject,
         html: adminTpl.html,
         replyTo: customerEmail
       });
-      console.log(`   Email admin (${adminEmail}) : ${adminOk ? 'envoyé ✓' : 'échec ✗'}`);
+      console.log(`   Email admin (${adminEmails.join(', ')}) : ${adminOk ? 'envoyé ✓' : 'échec ✗'}`);
 
       // 2. Email de confirmation au client
       if (customerEmail) {
