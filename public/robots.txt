@@ -1,0 +1,9 @@
+# Robots.txt — MonDossierJuridique.fr
+# Optimisé pour le référencement Google
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://www.mondossierjuridique.fr/sitemap.xml
