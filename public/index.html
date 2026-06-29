@@ -417,17 +417,17 @@
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      background: linear-gradient(135deg, #1a1a2e, #16213e);
-      color: #c9a227;
+      background: #15151a;
+      color: #fbfaf7;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       z-index: 9999;
       transition: opacity 0.4s ease;
     }
     #initial-loader.fade-out { opacity: 0; pointer-events: none; }
-    #initial-loader .loader-logo { font-size: 3rem; margin-bottom: 1rem; animation: pulse 1.4s ease-in-out infinite; }
-    #initial-loader .loader-brand { font-family: 'Playfair Display', Georgia, serif; font-size: 1.5rem; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
-    #initial-loader .loader-sub { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
-    #initial-loader .loader-spinner { margin-top: 1.5rem; width: 28px; height: 28px; border: 3px solid rgba(201,162,39,0.25); border-radius: 50%; border-top-color: #c9a227; animation: spin 0.9s linear infinite; }
+    #initial-loader .loader-logo { font-size: 2.6rem; margin-bottom: 1rem; filter: grayscale(1); animation: pulse 1.6s ease-in-out infinite; }
+    #initial-loader .loader-brand { font-family: 'Spectral', Georgia, 'Times New Roman', serif; font-size: 1.45rem; font-weight: 500; letter-spacing: 0.01em; margin-bottom: 0.5rem; color: #fbfaf7; }
+    #initial-loader .loader-sub { font-size: 0.85rem; color: rgba(255,255,255,0.55); letter-spacing: 0.04em; }
+    #initial-loader .loader-spinner { margin-top: 1.5rem; width: 26px; height: 26px; border: 2px solid rgba(162,56,71,0.25); border-radius: 50%; border-top-color: #a23847; animation: spin 0.9s linear infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.95); } }
     @keyframes spin { to { transform: rotate(360deg); } }
   </style>
